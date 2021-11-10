@@ -1,0 +1,1 @@
+// needs to register every user that puts an event on their wishlist users: [{ type: Schema.Types.ObjectId, ref: "regUsers"}]

@@ -4,9 +4,11 @@ import dotenv from "dotenv";
 // import seed from "./seed.js";
 
 export default async function config(app) {
-    // Middleware to log all requests
+    // Middleware to log all requests (except favicon)
     app.use((req, res, next) => {
-        console.log(`[REQ] ${req.method} ${req.path}`);
+        if (req.path.indexOf("favicon") === -1) {
+            console.log(`[REQ] ${req.method} ${req.path}`);
+        }
         next();
     })
 
