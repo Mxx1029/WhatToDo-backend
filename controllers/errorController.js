@@ -12,6 +12,7 @@ router.use((error, req, res, next) => {
         message = error.message;
     }
 
+    console.log(">> Error from global error handler: ", message);
     res.status(status);
     res.send(message);
 });

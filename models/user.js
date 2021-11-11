@@ -25,21 +25,56 @@ const userSchema = new Schema({
     },
     wishlist: [{
         type: Schema.Types.ObjectId,
-        ref: "events"
+        ref: "events" // ?
+    }],
+    attending: [{
+        type: Schema.Types.ObjectId,
+        ref: "events" // ?
+    }],
+    createdListings: [{
+        type: Schema.Types.ObjectId,
+        ref: "events" // ?
     }]
 });
 
-userSchema.statics.register = async (data) => {
-    // Hashing the password
-    const hashed = await hash(data.password);
-    data.password = hashed;
+/** 
+ * Static method to register a new user into the database
+ * @param {object} userData - User to created
+ * @returns {object} - Created User or null if registration fails
+*/
 
-    return User.create(data);
+userSchema.statics.register = async (userData) => {
+    try {
+        // Check if user already exists
+        const userCheck = await User.findOne({ email: userData.email });
+        if (userCheck) {
+            console.log(">> Error while registering user: Email already exists");
+            return res.status(400).json({ error: "Email already exists" })
+        }
+
+        // Hashing the password
+        const hashed = await hash(userData.password);
+        userData.password = hashed;
+        
+        // Create the user
+        return User.create(userData);
+
+    } catch (error) {
+        // To make sure no email address is published into the log
+        if (error.message.indexOf("email") !== -1) {
+            console.log(">> Error while registering user (email)")
+            res.status(404).json({ error: "Check inputs" });
+        } else {
+            console.log(">> Error while registering user: ", error.message)
+            res.status(404).json({ error: "Check inputs" });
+        }
+        return null;
+    }
 }
 
-userSchema.statics.login = async (data) => {
+userSchema.statics.login = async (userData) => {
     // Finding user in database
-    const user = await User.findOne({ email: data.email });
+    const user = await User.findOne({ email: userData.email });
     if (!user) {
 
     }
