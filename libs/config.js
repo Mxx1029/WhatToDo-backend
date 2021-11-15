@@ -7,7 +7,7 @@ export default async function config(app) {
     // Middleware to log all requests (except favicon)
     app.use((req, res, next) => {
         if (req.path.indexOf("favicon") === -1) {
-            console.log(`[REQ] ${req.method} ${req.path}`);
+            console.log(`[REQ] ${req.method} ${req.path} Time: ${Date.now().toLocaleString()}`);
         }
         next();
     })

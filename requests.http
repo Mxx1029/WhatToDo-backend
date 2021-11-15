@@ -1,0 +1,11 @@
+POST http://localhost:9012/users/add
+Content-Type: application/json
+
+{
+    "name": "Mxx1",
+    "email": "mxx1@example.org",
+    "password": "Lavamudcake123"
+}
+
+###
+GET http://localhost:9012/users/

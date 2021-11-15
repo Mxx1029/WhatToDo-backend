@@ -2,13 +2,13 @@
   "name": "whattodo-backend",
   "description": "Backend to [WhatToDo-App](https://github.com/Mxx1029/WhatToDo-App/)",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
