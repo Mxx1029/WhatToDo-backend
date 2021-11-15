@@ -20,7 +20,7 @@ const addUser = async (req, res) => {
         const user = await User.register(req.body);
         console.log(`>> New user ${user._id}, username: "${user.name}" saved to database.`);
         // just to test the hashing
-        console.log(user.password);
+        // console.log(user.password);
         res.status(201);
         res.json({
             _id: user.id,
