@@ -2,24 +2,24 @@
   "name": "whattodo-backend",
   "description": "Backend to [WhatToDo-App](https://github.com/Mxx1029/WhatToDo-App/)",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-validator": "^6.13.0",
     "faker": "^5.5.3",
     "mongoose": "^6.0.12",
     "nodemon": "^2.0.14"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Mxx1029/WhatToDo-backend.git"

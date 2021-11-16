@@ -1,0 +1,11 @@
+POST http://localhost:9012/users/add
+Content-Type: application/json
+
+{
+    "name": "Mxx3",
+    "email": "mxx3@example.org",
+    "password": "!Lavamud_Cake123"
+}
+
+###
+GET http://localhost:9012/users/
