@@ -6,6 +6,8 @@ const getUsers = (req, res) => {
     res.json({ success: "ok" })
 };
 
+const getUser = () => {};
+
 // Add/register a new user
 const addUser = async (req, res) => {
     try {
@@ -47,4 +49,4 @@ const updateUser = () => {};
 // Delete a user
 const deleteUser = () => {};
 
-export { getUsers, addUser, loginUser, updateUser, deleteUser };
+export { getUsers, getUser, addUser, loginUser, updateUser, deleteUser };
