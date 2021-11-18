@@ -2,6 +2,7 @@ import User from "../models/user.js";
 
 // Get a list of all users
 const getUsers = (req, res) => {
+    
     // just for testing
     res.json({ success: "ok" })
 };

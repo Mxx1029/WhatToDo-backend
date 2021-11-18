@@ -1,9 +1,9 @@
-POST http://localhost:9012/users/add
+POST http://localhost:9012/users/
 Content-Type: application/json
 
 {
-    "name": "Mxx3",
-    "email": "mxx3@example.org",
+    "name": "Mxx5",
+    "email": "mxx5@example.org",
     "password": "!Lavamud_Cake123"
 }
 
