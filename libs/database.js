@@ -6,6 +6,12 @@ export default async function connect() {
     const { DB_USER, DB_PASS, DB_HOST, DB_NAME } = process.env;
     // Building connection string
     const connStr = `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}`;
+    // -----
+    // For MongoDB Atlas use to be implemented in production
+    // const { DB_URI } = process.env;
+    // Connection string for MongoDB Atlas
+    // const connStrAtlas = `${DB_URI}`;
+    // -----
 
     // Event handlers for database connection
     mongoose.connection.on("error",
@@ -21,4 +27,8 @@ export default async function connect() {
 
     // Connect to database
     return await mongoose.connect(connStr);
+    // -----
+    // Connect to database in production
+    // return await mongoose.connect(connStrAtlas, { useNewUrlParser: true, useUnifiedTopology: true })
+    // -----
 }
