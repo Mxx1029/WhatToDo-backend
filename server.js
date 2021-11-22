@@ -1,7 +1,7 @@
 import express from "express";
 import config from "./libs/config.js";
 import connect from "./libs/database.js";
-// import eventRouter from "./router/eventRouter.js";
+import eventRouter from "./router/eventRouter.js";
 import userRouter from "./router/userRouter.js";
 import errorController from "./controllers/errorController.js";
 
@@ -12,7 +12,7 @@ config(server);
 connect(server);
 
 // Endpoint to filter events
-// server.use("/", eventRouter);
+server.use("/events", eventRouter);
 
 // Endpoint for registration and login, create listings, wishlist
 server.use("/users", userRouter);

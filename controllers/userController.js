@@ -2,9 +2,12 @@ import User from "../models/user.js";
 
 // Get a list of all users
 const getUsers = (req, res) => {
+    
     // just for testing
     res.json({ success: "ok" })
 };
+
+const getUser = () => {};
 
 // Add/register a new user
 const addUser = async (req, res) => {
@@ -47,4 +50,4 @@ const updateUser = () => {};
 // Delete a user
 const deleteUser = () => {};
 
-export { getUsers, addUser, loginUser, updateUser, deleteUser };
+export { getUsers, getUser, addUser, loginUser, updateUser, deleteUser };
