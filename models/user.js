@@ -1,16 +1,20 @@
 import mongoose from "mongoose";
+import moment from "moment";
 import { hash, compareHashes } from "../libs/crypto.js";
 
 // Helper variables
 const required = true;
 const unique = true;
 const { Schema } = mongoose;
+const date = moment.utc();
 
 // Setting up user schema
 const userSchema = new Schema({
-	name: {
-		type: String,
+	name: { 
+        type: String,
 		required,
+        minLength: 3,
+        maxLength: 20
 	},
 	email: {
 		type: String,
@@ -22,25 +26,12 @@ const userSchema = new Schema({
 		type: String,
 		required,
 		minLength: 8,
+        maxLength: 20
 	},
-	wishlist: [
-		{
-			type: Schema.Types.ObjectId,
-			ref: "events", // ?
-		},
-	],
-	attending: [
-		{
-			type: Schema.Types.ObjectId,
-			ref: "events", // ?
-		},
-	],
-	createdListings: [
-		{
-			type: Schema.Types.ObjectId,
-			ref: "events", // ?
-		},
-	],
+	wishlist: [ { type: Schema.Types.ObjectId, ref: "events" } ], // ?
+	attending: [ { type: Schema.Types.ObjectId, ref: "events" } ], // ?
+	createdListings: [ { type: Schema.Types.ObjectId, ref: "events" } ], // ?
+    account_created: { type: Date, default: date }
 });
 
 /**
