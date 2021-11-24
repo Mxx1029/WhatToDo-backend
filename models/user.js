@@ -10,11 +10,11 @@ const date = moment.utc();
 
 // Setting up user schema
 const userSchema = new Schema({
-	name: { 
-        type: String,
+	name: {
+		type: String,
 		required,
-        minLength: 3,
-        maxLength: 20
+		minLength: 3,
+		maxLength: 20,
 	},
 	email: {
 		type: String,
@@ -26,12 +26,12 @@ const userSchema = new Schema({
 		type: String,
 		required,
 		minLength: 8,
-        maxLength: 20
+		maxLength: 20,
 	},
-	wishlist: [ { type: Schema.Types.ObjectId, ref: "events" } ], // ?
-	attending: [ { type: Schema.Types.ObjectId, ref: "events" } ], // ?
-	createdListings: [ { type: Schema.Types.ObjectId, ref: "events" } ], // ?
-    account_created: { type: Date, default: date }
+	wishlist: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
+	attending: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
+	createdListings: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
+	account_created: { type: Date, default: date },
 });
 
 /**
