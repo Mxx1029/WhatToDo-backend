@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-// import seed from "./seed.js";
+import seed from "./seed.js";
 
 export default async function config(app) {
     // Middleware to log all requests (except favicon)
@@ -24,7 +24,7 @@ export default async function config(app) {
         process.exit(1);
     }
 
-    // Seed database with some fake events and users
-    // await seed();
-    // console.log("Seeding fakes");
+    // Seed database with some fake events (no users so far)
+    await seed();
+    console.log("Seeding events");
 }
