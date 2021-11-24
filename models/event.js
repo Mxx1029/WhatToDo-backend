@@ -64,13 +64,13 @@ const eventSchema = new Schema({
     email: { type: String },
     phone: { type: String, minLength: 6, maxLength: 15 }, // ?? more validation
     instagram: { type: String, minLength: 3 },
-    twitter: { type: String }, // this might be deleted
     facebook: { type: String, minLength: 3 },
 
     // Image
-    image: { type: Schema.Types.ObjectId, ref: "images"
-        // event.path(image).get(value => `${rootImageUrl}/${value}`); 
-    },
+    // image: { type: Schema.Types.ObjectId, ref: "images"
+    //     // event.path(image).get(value => `${rootImageUrl}/${value}`); 
+    // },
+    image: String, // for seeding fake events
 
     // Review
     draft: { type: Boolean, default: true },
