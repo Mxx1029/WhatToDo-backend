@@ -1,15 +1,19 @@
 // import Event from "../models/event.js";
+// import Image from "../models/image.js";
 
-const getEventsForToday = () => {};
 
-const getEvents = () => {};
+const getEventsForToday = (req, res, next) => {};
 
-const getEvent = () => {};
+const getEvents = (req, res, next) => {};
 
-const addEvent = () => {};
+const getEvent = (req, res, next) => {};
 
-const updateEvent = () => {};
+const addEvent = (req, res, next) => {
+    console.log(req.file);
+};
 
-const deleteEvent = () => {};
+const updateEvent = (req, res, next) => {};
+
+const deleteEvent = (req, res, next) => {};
 
 export { getEventsForToday, getEvents, getEvent, addEvent, updateEvent, deleteEvent };

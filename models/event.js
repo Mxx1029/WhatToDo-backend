@@ -47,7 +47,11 @@ const eventSchema = new Schema({
     }, 
     happens_once: { type: Boolean },
     happens_daily_or_weekly: { type: String, enum: ["daily", "weekly"] },
-    happens_on_specific_dates: [ Date ], // can you do multiple dates like this?
+    happens_on_specific_dates: [ { 
+        type: Date, 
+        min: date.add(3, "days"), 
+        max: date.add(6, "months") 
+    } ], // can you do multiple dates like this?
 
     // Prices and Booking
     free_event: { type: Boolean, required },
@@ -56,17 +60,15 @@ const eventSchema = new Schema({
     booking_site: { type: String },
 
     // Contact Details
-    website: { type: String },
+    website: { type: String, minLength: 5 },
     email: { type: String },
-    phone: { type: String }, // ?? validation
-    instagram: { type: String },
-    twitter: { type: String },
-    facebook: { type: String },
+    phone: { type: String, minLength: 6, maxLength: 15 }, // ?? more validation
+    instagram: { type: String, minLength: 3 },
+    twitter: { type: String }, // this might be deleted
+    facebook: { type: String, minLength: 3 },
 
     // Image
-    image: {
-        type: Schema.Types.ObjectId,
-        ref: "images"
+    image: { type: Schema.Types.ObjectId, ref: "images"
         // event.path(image).get(value => `${rootImageUrl}/${value}`); 
     },
 
