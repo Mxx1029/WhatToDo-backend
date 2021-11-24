@@ -39,7 +39,7 @@ const eventSchema = new Schema({
 	// min 3 day ahead, max 6 months to the future
 	start_date: {
 		// type: Date,
-        // for seeding fakes // when you use .format("dddd, DD MMMM YYYY"), the output is type string, not type date
+        // for seeding fakes // when you use .format("dddd, DD MMMM YYYY"), the output is type string, not type date!!
         type: String,
 		min: moment.utc().add(3, "days"),
 		max: moment.utc().add(6, "months"),
@@ -53,7 +53,7 @@ const eventSchema = new Schema({
 	},
 	start_time: {
 		// type: Date,
-        // for seeding fakes
+        // for seeding fakes // when you use .format("HH:mm"), the output is type string, not type date!!
         type: String,
 		min: moment.utc().add(3, "days"),
 		max: moment.utc().add(6, "months"),
