@@ -16,7 +16,12 @@ const addUser = async (req, res) => {
         const userCheck = await User.findOne({ email: req.body.email });
         if (userCheck) {
             console.log(">> Error while registering user: Email already exists");
-            return res.status(400).json({ error: "Email already exists" })
+            return res.status(400).json({ error: "Email already exists" });
+            // OR (instead of line above, but keep the console.log()):
+            // const e = new Error("Email already exists");
+            // e.status(400);
+            // next(e);
+            // return;
         }
 
         // Add new user to the database
@@ -38,6 +43,8 @@ const addUser = async (req, res) => {
         }
         console.log(">> Error while registering user: ", error.message);
         res.status(400).json({ error: "Check inputs" });
+        // OR (instead of line above, but keep the console.log()):
+        // next(error);
     }
 };
 
