@@ -30,7 +30,7 @@ const userSchema = new Schema({
 	wishlist: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
 	attending: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
 	createdListings: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
-	account_created: { type: Date, default: moment.utc },
+	account_created: { type: Date, default: () => moment.utc() },
 });
 
 /**

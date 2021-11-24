@@ -38,23 +38,31 @@ const eventSchema = new Schema({
 	// Date and Time
 	// min 3 day ahead, max 6 months to the future
 	start_date: {
-		type: Date,
+		// type: Date,
+        // for seeding fakes // when you use .format("dddd, DD MMMM YYYY"), the output is type string, not type date
+        type: String,
 		min: moment.utc().add(3, "days"),
 		max: moment.utc().add(6, "months"),
 	}, // date.add(3, "days").format("dddd, DD MMMM YYYY") prints "Friday, 26 November 2021" // see test.js for example how to use moment.js
 	end_date: {
-		type: Date,
+		// type: Date,
+        // for seeding fakes
+        type: String,
 		min: moment.utc().add(3, "days"),
 		max: moment.utc().add(6, "months"),
 	},
 	start_time: {
-		type: Date,
+		// type: Date,
+        // for seeding fakes
+        type: String,
 		min: moment.utc().add(3, "days"),
 		max: moment.utc().add(6, "months"),
 		// date.add(3, "days").format("dddd, DD MMMM YYYY") prints "13:21"
 	},
 	end_time: {
-		type: Date,
+		// type: Date,
+        // for seeding fakes
+        type: String,
 		min: moment.utc().add(3, "days"),
 		max: moment.utc().add(6, "months"),
 	},
@@ -77,7 +85,7 @@ const eventSchema = new Schema({
     // Contact Details
     website: { type: String, minLength: 5 },
     email: { type: String },
-    phone: { type: String, minLength: 6, maxLength: 15 }, // ?? more validation
+    phone: { type: String, minLength: 6, maxLength: 25 }, // frontend max: 15, put 25 here for seeding fakes
     instagram: { type: String, minLength: 3 },
     facebook: { type: String, minLength: 3 },
 
@@ -95,7 +103,7 @@ const eventSchema = new Schema({
 
 	// for CRUD actions on event listings
 	author: { type: Schema.Types.ObjectId, ref: "regUsers" }, // user that created the event
-	created_at: { type: Date, default: moment.utc }, // or default: () => moment.utc()
+	created_at: { type: Date, default: () => moment.utc() }, // or default: moment.utc 
 	updated_at: { type: Date },
 	deleted: { type: Date },
 

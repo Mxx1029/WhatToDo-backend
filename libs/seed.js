@@ -1,5 +1,4 @@
 import faker from "faker";
-import { database } from "faker/locale/de_CH";
 import moment from "moment";
 import Event from "../models/event.js";
 
@@ -34,19 +33,19 @@ export default async function seed() {
 		// Helper variables
 		const randomCategory = categories[getRandom(0, categories.length - 1)];
 		const randomDate = moment.utc().add(getRandom(3, 120), "days");
-		const randomStartTime = getRandom(10, 23);
+		const randomStartTime = getRandom(0, 5);
 
 		// Event instance is created
 		const event = await Event.create({
-			name: faker.lorem.words(75),
+			name: faker.random.words(7),
 			address: `${faker.address.streetAddress()}, ${faker.address.zipCode()}, Berlin`,
 			category: randomCategory,
-			summary: faker.lorem.words(80),
-			description: faker.lorem.sentences(8),
+			summary: faker.random.words(7),
+			description: faker.random.words(75),
 			start_date: randomDate.format("dddd, DD MMMM YYYY"),
 			end_date: randomDate.format("dddd, DD MMMM YYYY"),
-			start_time: randomDate.add(randomStartTime, "hours").format("HH:mm"),
-			end_time: randomDate.add(randomStartTime + 2, "hours"),
+			start_time: randomDate.add(randomStartTime, "hours").startOf("hour").format("HH:mm"),
+			end_time: randomDate.add(randomStartTime + 2, "hours").startOf("hour").format("HH:mm"),
 			happens_once: 1,
 			free_event: 1,
 			booking_required: 0,
