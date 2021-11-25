@@ -17,7 +17,7 @@ router.get("/:userId", userController.getUser);
 // register a user
 router.post("/", validate(registerRules), userController.addUser); 
 // login a user --> req.body will contain email/password
-router.post("/login", userController.loginUser); 
+router.post("/login", userController.loginUser); // --> after this redirect to /users/:userId/events/today ?
 router.put("/:userId", userController.updateUser);
 router.delete("/:userId", userController.deleteUser);
 
@@ -30,6 +30,7 @@ router.get("/:userId/events", eventController.getEvents);
 router.get("/:userId/events/:eventId", eventController.getEvent); 
 
 // routes for CRUD actions on events (only possible for logged in users)
+// these need login checks (secure endpoints)
 router.post("/:userId/events", upload.single('uploaded_image'), eventController.addEvent);
 router.put("/:userId/events/:eventId", eventController.updateEvent);
 router.delete("/:userId/events/:eventId", eventController.deleteEvent);

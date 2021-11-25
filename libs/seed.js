@@ -28,8 +28,8 @@ export default async function seed() {
 	// Array to hold the fake events
 	const fakeEvents = [];
 
-	// Create 15 fake events
-	for (let i = 16; --i; ) {
+	// Create 24 fake events
+	for (let i = 25; --i; ) {
 		// Helper variables
 		const randomCategory = categories[getRandom(0, categories.length - 1)];
 		const randomDate = moment().add(getRandom(3, 120), "days");
@@ -42,8 +42,8 @@ export default async function seed() {
 			category: randomCategory,
 			summary: faker.random.words(7),
 			description: faker.random.words(75),
-			start_date: randomDate.format("dddd, DD MMMM YYYY"),
-			end_date: randomDate.format("dddd, DD MMMM YYYY"),
+			start_date: randomDate.format("DD MMM"),
+			end_date: randomDate.format("DD MMM"),
 			start_time: randomDate.add(randomStartTime, "hours").startOf("hour").format("HH:mm"),
 			end_time: randomDate.add(randomStartTime + 2, "hours").startOf("hour").format("HH:mm"),
 			happens_once: 1,
