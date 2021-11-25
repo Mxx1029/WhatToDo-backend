@@ -1,6 +1,6 @@
 import moment from "moment";
 
-const date = moment.utc();
+const date = moment(); // moment.utc() for created_at, but not for event dates, as they need to be in local time...
 console.log(date.add(3, "days").format("dddd, DD MMMM YYYY"));
 console.log(date.add(3, "days").format("HH:mm"));
 console.log(date.format());
