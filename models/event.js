@@ -11,7 +11,7 @@ const date = moment.utc(); // is this done every time, there's a new instance of
 
 // Setting up event schema
 const eventSchema = new Schema({
-	name: { type: String, required, minLength: 1, maxLength: 100 },
+	name: { type: String, required, minLength: 1, maxLength: 50 },
 	address: { type: String, required, minLength: 3, maxLength: 100 },
 	category: {
 		// type: [ { type: String, enum: ["Free", "Music", "Workshop", "Film", "Family", "Market", "Exhibition", "Party", "Performing Arts", "Opening", "Food", "Reading"] } ], required // found this here, apparently then multi-select works for enums: https://stackoverflow.com/questions/27447876/is-it-possible-to-create-a-multi-select-enum-in-mongoose
@@ -38,24 +38,24 @@ const eventSchema = new Schema({
 	// Date and Time
 	// min 3 day ahead, max 6 months to the future
 	start_date: {
-		// type: Date,
+		type: Date,
 		// for seeding fakes // when you use .format("dddd, DD MMMM YYYY"), the output is type string, not type date!!
-		type: String,
+		// type: String,
 	}, // see test.js for example how to use moment.js
 	end_date: {
-		// type: Date,
+		type: Date,
 		// for seeding fakes
-		type: String,
+		// type: String,
 	},
 	start_time: {
-		// type: Date,
+		type: Date,
 		// for seeding fakes // when you use .format("HH:mm"), the output is type string, not type date!!
-		type: String,
+		// type: String,
 	},
 	end_time: {
-		// type: Date,
+		type: Date,
 		// for seeding fakes
-		type: String,
+		// type: String,
 	},
 
 	// Prices and Booking
