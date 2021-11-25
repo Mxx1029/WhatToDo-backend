@@ -6,7 +6,6 @@ import { hash, compareHashes } from "../libs/crypto.js";
 const required = true;
 const unique = true;
 const { Schema } = mongoose;
-const date = moment.utc();
 
 // Setting up user schema
 const userSchema = new Schema({
@@ -31,7 +30,7 @@ const userSchema = new Schema({
 	wishlist: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
 	attending: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
 	createdListings: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
-	account_created: { type: Date, default: date },
+	account_created: { type: Date, default: () => moment.utc() },
 });
 
 /**
