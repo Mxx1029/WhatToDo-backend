@@ -32,7 +32,7 @@ export default async function seed() {
 	for (let i = 16; --i; ) {
 		// Helper variables
 		const randomCategory = categories[getRandom(0, categories.length - 1)];
-		const randomDate = moment.utc().add(getRandom(3, 120), "days");
+		const randomDate = moment().add(getRandom(3, 120), "days");
 		const randomStartTime = getRandom(0, 5);
 
 		// Event instance is created

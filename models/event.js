@@ -39,42 +39,24 @@ const eventSchema = new Schema({
 	// min 3 day ahead, max 6 months to the future
 	start_date: {
 		// type: Date,
-        // for seeding fakes // when you use .format("dddd, DD MMMM YYYY"), the output is type string, not type date!!
-        type: String,
-		min: moment.utc().add(3, "days"),
-		max: moment.utc().add(6, "months"),
-	}, // date.add(3, "days").format("dddd, DD MMMM YYYY") prints "Friday, 26 November 2021" // see test.js for example how to use moment.js
+		// for seeding fakes // when you use .format("dddd, DD MMMM YYYY"), the output is type string, not type date!!
+		type: String,
+	}, // see test.js for example how to use moment.js
 	end_date: {
 		// type: Date,
-        // for seeding fakes
-        type: String,
-		min: moment.utc().add(3, "days"),
-		max: moment.utc().add(6, "months"),
+		// for seeding fakes
+		type: String,
 	},
 	start_time: {
 		// type: Date,
-        // for seeding fakes // when you use .format("HH:mm"), the output is type string, not type date!!
-        type: String,
-		min: moment.utc().add(3, "days"),
-		max: moment.utc().add(6, "months"),
-		// date.add(3, "days").format("dddd, DD MMMM YYYY") prints "13:21"
+		// for seeding fakes // when you use .format("HH:mm"), the output is type string, not type date!!
+		type: String,
 	},
 	end_time: {
 		// type: Date,
-        // for seeding fakes
-        type: String,
-		min: moment.utc().add(3, "days"),
-		max: moment.utc().add(6, "months"),
+		// for seeding fakes
+		type: String,
 	},
-	happens_once: { type: Boolean },
-	happens_daily_or_weekly: { type: String, enum: ["daily", "weekly"] },
-	happens_on_specific_dates: [
-		{
-			type: Date,
-			min: date.add(3, "days"),
-			max: date.add(6, "months"),
-		},
-	], // can you do multiple dates like this?
 
 	// Prices and Booking
 	free_event: { type: Boolean, required },
@@ -82,28 +64,22 @@ const eventSchema = new Schema({
 	booking_required: { type: Boolean, required },
 	booking_site: { type: String },
 
-    // Contact Details
-    website: { type: String, minLength: 5 },
-    email: { type: String },
-    phone: { type: String, minLength: 6, maxLength: 25 }, // frontend max: 15, put 25 here for seeding fakes
-    instagram: { type: String, minLength: 3 },
-    facebook: { type: String, minLength: 3 },
+	// Contact Details
+	website: { type: String, minLength: 5 },
+	email: { type: String },
+	phone: { type: String, minLength: 6, maxLength: 25 }, // frontend max: 15, put 25 here for seeding fakes
+	instagram: { type: String, minLength: 3 },
+	facebook: { type: String, minLength: 3 },
 
-    // Image
-    // image: { type: Schema.Types.ObjectId, ref: "images"
-    //     // event.path(image).get(value => `${rootImageUrl}/${value}`); 
-    // },
-    image: String, // for seeding fake events
-
-	// Review
-	draft: { type: Boolean, default: true },
-	submitted: { type: Boolean, default: false },
-	reviewed: { type: Boolean, default: false },
-	published: { type: Boolean, default: false },
+	// Image
+	// image: { type: Schema.Types.ObjectId, ref: "images"
+	//     // event.path(image).get(value => `${rootImageUrl}/${value}`);
+	// },
+	image: String, // for seeding fake events
 
 	// for CRUD actions on event listings
 	author: { type: Schema.Types.ObjectId, ref: "regUsers" }, // user that created the event
-	created_at: { type: Date, default: () => moment.utc() }, // or default: moment.utc 
+	created_at: { type: Date, default: () => moment.utc() }, // or default: moment.utc // but this gives startOf("day") for some reason, not the time
 	updated_at: { type: Date },
 	deleted: { type: Date },
 
