@@ -32,20 +32,20 @@ export default async function seed() {
 	for (let i = 25; --i; ) {
 		// Helper variables
 		const randomCategory = categories[getRandom(0, categories.length - 1)];
-		const randomDate = moment().add(getRandom(3, 120), "days");
-		const randomStartTime = getRandom(0, 5);
+		const randomStartDate = moment().add(getRandom(3, 120), "days").startOf("hour");
+        const randomEndDate = moment(randomStartDate).add(getRandom(0, 5), "days").add(getRandom(2, 7), "hours").startOf("hour");
 
 		// Event instance is created
 		const event = await Event.create({
-			name: faker.random.words(4),
+			name: faker.random.words(3),
 			address: `${faker.address.streetAddress()}, ${faker.address.zipCode()}, Berlin`,
 			category: randomCategory,
 			summary: faker.random.words(7),
 			description: faker.random.words(75),
-			start_date: randomDate,
-			end_date: randomDate,
-			start_time: randomDate.add(randomStartTime, "hours").startOf("hour"),
-			end_time: randomDate.add(randomStartTime + 2, "hours").startOf("hour"),
+			start_date: randomStartDate,
+			end_date: randomEndDate,
+			start_time: randomStartDate,
+			end_time: randomEndDate,
 			free_event: 1,
 			booking_required: 0,
 			website: faker.internet.url(),
