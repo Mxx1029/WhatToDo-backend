@@ -37,16 +37,15 @@ export default async function seed() {
 
 		// Event instance is created
 		const event = await Event.create({
-			name: faker.random.words(7),
+			name: faker.random.words(4),
 			address: `${faker.address.streetAddress()}, ${faker.address.zipCode()}, Berlin`,
 			category: randomCategory,
 			summary: faker.random.words(7),
 			description: faker.random.words(75),
-			start_date: randomDate.format("DD MMM"),
-			end_date: randomDate.format("DD MMM"),
-			start_time: randomDate.add(randomStartTime, "hours").startOf("hour").format("HH:mm"),
-			end_time: randomDate.add(randomStartTime + 2, "hours").startOf("hour").format("HH:mm"),
-			happens_once: 1,
+			start_date: randomDate,
+			end_date: randomDate,
+			start_time: randomDate.add(randomStartTime, "hours").startOf("hour"),
+			end_time: randomDate.add(randomStartTime + 2, "hours").startOf("hour"),
 			free_event: 1,
 			booking_required: 0,
 			website: faker.internet.url(),
