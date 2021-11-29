@@ -1,13 +1,14 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import moment from "moment";
 import seed from "./seed.js";
 
 export default async function config(app) {
     // Middleware to log all requests (except favicon)
     app.use((req, res, next) => {
         if (req.path.indexOf("favicon") === -1) {
-            console.log(`[REQ] ${req.method} ${req.path} Created_at: ${new Date().toISOString()}`);
+            console.log(`[REQ] ${req.method} ${req.path} Created_at: ${moment.utc().format()}`);
         }
         next();
     })
