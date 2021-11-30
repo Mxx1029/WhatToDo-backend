@@ -22,9 +22,6 @@ server.use(errorController);
 
 // Connect to port
 const PORT = process.env.PORT;
-if (!PORT) {
-    console.log("Missing PORT variable, check .env")
-};
 server.listen(PORT, () => {
     console.log(`Server started listening on http://localhost:${PORT}`)
 })
