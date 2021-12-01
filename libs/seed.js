@@ -28,11 +28,11 @@ export default async function seed() {
 	// Array to hold the fake events
 	const fakeEvents = [];
 
-	// Create 64 fake events
-	for (let i = 65; --i; ) {
+	// Create 116 fake events
+	for (let i = 117; --i; ) {
 		// Helper variables/functions
 		const randomCategory = categories[getRandom(0, categories.length - 1)];
-		const randomStartDate = moment().add(getRandom(0, 120), "days").startOf("hour");
+		const randomStartDate = moment().add(getRandom(0, 15), "days").startOf("hour");
         const randomEndDate = moment(randomStartDate).add(getRandom(0, 5), "days").add(getRandom(2, 7), "hours").startOf("hour");
         const isTrue = () => Math.random() < 0.5 ? false : true;
 

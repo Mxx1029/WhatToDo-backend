@@ -5,11 +5,11 @@ import Event from "../models/event.js";
 // landing page: you get all events happening today
 const getEventsForToday = (req, res, next) => {
 	// get same format as is in the database out of moment object (type: String)
-	// const today = moment().format("dddd, DD MMMM YYYY");
+	const today = moment();
 
 	Event.find(
 		// implement today's events, when we actually have data, but also: events who are longer than one day will not be found like this
-		// { start_date: today },
+		{ start_date: { $lte: moment(today) }, end_date: { $gte: moment(today) } },
 		(err, docs) => {
 			if (err) {
 				next(err);
