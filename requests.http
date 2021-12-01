@@ -10,6 +10,9 @@ Content-Type: application/json
 ###
 GET http://localhost:9012/events/today
 
+### after each backup start, you need to get a fresh eventId from Compass/Atlas for the url
+GET http://localhost:9012/events/61a7365967131f5aece9bccf
+
 ###
 POST http://localhost:9012/users/61967de60e4dab9b1c1bceaa/events
 Content-Type: application/json

@@ -20,7 +20,16 @@ const getEventsForToday = (req, res, next) => {
 
 const getEvents = (req, res, next) => {};
 
-const getEvent = (req, res, next) => {};
+// user clicks on a event
+const getEvent = (req, res, next) => {
+    const eventId = req.params.eventId;
+    Event.find({ _id: eventId }, (err, result) => {
+        if (err) {
+            return next(err);
+        }
+        res.send(result);
+    })
+};
 
 const addEvent = async (req, res, next) => {
 	console.log(req.file);
