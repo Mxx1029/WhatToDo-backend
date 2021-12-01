@@ -75,12 +75,12 @@ const getEvents = (req, res, next) => {
 // user clicks on a event
 const getEvent = (req, res, next) => {
 	const eventId = req.params.eventId;
-	Event.find({ _id: eventId }, (err, docs) => {
+	Event.findOne({ _id: eventId }, (err, doc) => {
 		if (err) {
 			next(err);
 			return;
 		}
-		res.send(docs);
+		res.send(doc);
 	});
 };
 
