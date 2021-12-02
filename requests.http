@@ -2,12 +2,20 @@ POST http://localhost:9012/users/
 Content-Type: application/json
 
 {
-    "name": "Mxx5",
-    "email": "mxx5@example.org",
+    "name": "Mxx6",
+    "email": "mxx6@example.org",
     "password": "!Lavamud_Cake123"
 }
 
 ###
+POST http://localhost:9012/users/login
+Content-Type: application/json
+
+{
+    "email": "mxx6@example.org",
+    "password": "!Lavamud_Cake123"
+}
+
 GET http://localhost:9012/events/today
 
 ###
