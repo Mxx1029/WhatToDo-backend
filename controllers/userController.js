@@ -57,12 +57,11 @@ const loginUser = async (req, res, next) => {
 
 		// Create JWT token
 		const token = jwt.sign({ _id: user._id }, process.env.SECRET);
-        
 
 		res.json({ user, token });
 	} catch (error) {
-        next(error);
-    }
+		next(error);
+	}
 };
 
 // Update a user
