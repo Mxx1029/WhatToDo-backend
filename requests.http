@@ -16,6 +16,7 @@ Content-Type: application/json
     "password": "!Lavamud_Cake123"
 }
 
+###
 GET http://localhost:9012/events/today
 
 ###
