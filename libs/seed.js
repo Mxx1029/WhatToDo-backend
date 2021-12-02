@@ -28,12 +28,13 @@ export default async function seed() {
 	// Array to hold the fake events
 	const fakeEvents = [];
 
-	// Create 24 fake events
-	for (let i = 25; --i; ) {
-		// Helper variables
+	// Create 116 fake events
+	for (let i = 117; --i; ) {
+		// Helper variables/functions
 		const randomCategory = categories[getRandom(0, categories.length - 1)];
-		const randomStartDate = moment().add(getRandom(3, 120), "days").startOf("hour");
+		const randomStartDate = moment().add(getRandom(0, 15), "days").startOf("hour");
         const randomEndDate = moment(randomStartDate).add(getRandom(0, 5), "days").add(getRandom(2, 7), "hours").startOf("hour");
+        const isTrue = () => Math.random() < 0.5 ? false : true;
 
 		// Event instance is created
 		const event = await Event.create({
@@ -46,8 +47,10 @@ export default async function seed() {
 			end_date: randomEndDate,
 			start_time: randomStartDate,
 			end_time: randomEndDate,
-			free_event: 1,
-			booking_required: 0,
+			free_event: isTrue(),
+            price: getRandom(0, 30),
+			booking_required: isTrue(),
+            booking_site: faker.internet.url(),
 			website: faker.internet.url(),
 			email: faker.internet.email(),
 			phone: faker.phone.phoneNumber(),
