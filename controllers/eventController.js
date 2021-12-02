@@ -1,5 +1,6 @@
 import moment from "moment";
 import Event from "../models/event.js";
+import User from "../models/user.js";
 // import Image from "../models/image.js";
 
 // landing page: you get all events happening today
@@ -85,28 +86,69 @@ const getEvent = (req, res, next) => {
 };
 
 const addEvent = async (req, res, next) => {
-	console.log(req.file);
-	console.log(req.body);
+	// console.log(req.file);
+	// console.log(req.body);
 
-	const newEvent = new Event(req.body);
+	// Create new event with data from client-side
+	// const newEvent = new Event(req.body);
 
-	await newEvent.save((err, doc) => {
-		if (err) {
-			next(err);
-			return;
-		}
-		// for testing:
-		res.status(201);
-		res.send(doc);
-		// for production:
-		// console.log(`>> New event ${doc._id}, title: "${doc.name}" saved to database. Created by ${doc.author}`);
-		// res.status(201);
-		// res.json({
-		//     _id: doc.id,
-		//     name: doc.name,
-		//     start_date: doc.start_date
-		// })
-	});
+	// Save the created event
+	// await newEvent.save((err, doc) => {
+	// 	if (err) {
+	// 		next(err);
+	// 		return;
+	// 	}
+
+	// for testing:
+	// res.status(201);
+	// res.send(doc);
+	// for production:
+	// console.log(`>> New event ${doc._id}, title: "${doc.name}" saved to database. Created by ${doc.author}`);
+	// res.status(201);
+	// res.json({
+	//     _id: doc.id,
+	//     name: doc.name,
+	//     start_date: doc.start_date
+	// })
+	// });
+
+	try {
+		// Create new event with data from client-side
+		const newEvent = await Event.create(req.body);
+
+		// Get user/author creating the event from the database
+		const userId = req.params.userId;
+        console.log(userId);
+		const user = await User.findOne({ _id: userId });
+        console.log(newEvent);
+        console.log(user);
+		// Save event as one of the user's listings
+		user.createdListings.push(newEvent);
+		await user.save();
+		// newEvent["author"] = user; // this overwrites newEvent with the user object..! How to add a value to an existing instance, do i need to do .findOneAndUpdate()?
+        console.log(user.createdListings);
+		await newEvent.save((err, doc) => {
+            if (err) {
+                next(err);
+				return;
+			}
+            console.log(newEvent.author);
+			// for testing:
+			res.status(201);
+			res.send(doc);
+			// for production:
+			// console.log(`>> New event ${doc._id}, title: "${doc.name}" saved to database. Created by ${doc.author}`);
+			// res.status(201);
+			// res.json({
+			//     _id: doc.id,
+			//     name: doc.name,
+			//     start_date: doc.start_date
+			// })
+		});
+	} catch (error) {
+		next(error);
+	}
+
 };
 
 const updateEvent = (req, res, next) => {};
