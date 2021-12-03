@@ -25,7 +25,6 @@ const userSchema = new Schema({
 		type: String,
 		required,
 		minLength: 8,
-		maxLength: 20,
 	},
 	wishlist: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
 	attending: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?

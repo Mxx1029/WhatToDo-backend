@@ -40,36 +40,36 @@ const newEventRules = [
 		.withMessage("description-has-invalid-input"),
 	body("start_date")
     // for testing Date fields become strings
-		// .isDate() 
+		.isAscii() 
 		.trim()
-		.escape(),
-		// .withMessage("start-date-has-invalid-input"),
+		.escape()
+		.withMessage("start-date-has-invalid-input"),
 	body("end_date")
-		// .isDate()
+		.isAscii()
 		.trim()
-		.escape(),
-		// .withMessage("end-date-has-invalid-input"),
+		.escape()
+		.withMessage("end-date-has-invalid-input"),
 	body("start_time")
-		// .isDate()
+		.isAscii()
 		.trim()
-		.escape(),
-		// .withMessage("start-time-has-invalid-input"),
+		.escape()
+		.withMessage("start-time-has-invalid-input"),
 	body("end_time")
-		// .isDate()
+		.isAscii()
 		.trim()
-		.escape(),
-		// .withMessage("end-time-has-invalid-input"),
-	body("booking_site").trim().escape(),
-	body("website").trim().escape(),
+		.escape()
+		.withMessage("end-time-has-invalid-input"),
+	// body("booking_site").trim().escape(),
+	// body("website").trim().escape(),
 	body("email").isEmail().normalizeEmail().withMessage("email-invalid"),
 	body("phone")
 		.isNumeric({ no_symbols: false })
 		.trim()
 		.escape()
 		.withMessage("phone-has-invalid-input"),
-	body("instagram").trim().escape(),
-	body("facebook").trim().escape(),
-	body("image").trim().escape(),
+	// body("instagram").trim().escape(),
+	// body("facebook").trim().escape(),
+	// body("image").trim().escape(),
 ];
 
 export default newEventRules;
