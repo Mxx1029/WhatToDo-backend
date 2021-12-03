@@ -4,7 +4,7 @@ import * as eventController from "../controllers/eventController.js";
 import * as userController from "../controllers/userController.js";
 import validate from "../middlewares/validationCheck.js";
 import registerRules from "../validation/registerRules.js";
-// import loginRules from "../validation/loginRules.js";
+import loginRules from "../validation/loginRules.js";
 import newEventRules from "../validation/newEventRules.js";
 
 const router = express.Router();
@@ -18,7 +18,7 @@ router.get("/:userId", userController.getUser);
 // register a user
 router.post("/", validate(registerRules), userController.addUser);
 // login a user --> req.body will contain email/password
-router.post("/login", userController.loginUser); // --> after this redirect to /users/:userId/events/today ?
+router.post("/login", validate(loginRules), userController.loginUser); // --> after this redirect to /users/:userId/events/today ?
 router.put("/:userId", userController.updateUser);
 router.delete("/:userId", userController.deleteUser);
 

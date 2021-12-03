@@ -55,6 +55,8 @@ export default async function seed() {
 			email: faker.internet.email(),
 			phone: faker.phone.phoneNumber(),
 			image: faker.image.image(),
+            wishlist_count: getRandom(1, 250),
+            attending_count: getRandom(1, 125)
 		});
 
 		fakeEvents.push(event);

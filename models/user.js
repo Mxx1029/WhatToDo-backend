@@ -25,7 +25,7 @@ const userSchema = new Schema({
 		type: String,
 		required,
 		minLength: 8,
-		maxLength: 20,
+		maxLength: 65,
 	},
 	wishlist: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
 	attending: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
@@ -52,13 +52,35 @@ userSchema.statics.register = async (userData) => {
 	}
 };
 
-userSchema.statics.login = async (userData) => {
-	// Finding user in database
-	const user = await User.findOne({ email: userData.email });
-	if (!user) {
-	}
+/**
+ * Static method to login a already registered user
+ * @param {object} userData - object containing email and password
+ * @returns {Promise<object>} - will resolve to user object if successful or null if not
+ */
 
-	// Compare the password with saved hash
+userSchema.statics.login = async (userData) => {
+	try {
+		const user = await User.findOne({ email: userData.email });
+
+		// Compare the password with saved hash
+		await compareHashes(userData.password, user.password);
+
+		return user.toJSON();
+	} catch (error) {
+		return null;
+	}
+};
+
+/**
+ * Instance method to convert a User object into a shorter JSON (and make sure, no hashes/passwords are sent)
+ * @returns {object} - simplefied JSON representation
+ */
+userSchema.methods.toJSON = () => {
+	return {
+		_id: this._id,
+		name: this.name,
+		email: this.email,
+	};
 };
 
 // Setting up user model
