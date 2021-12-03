@@ -89,6 +89,9 @@ const eventSchema = new Schema({
 	attending_count: { type: Number }, // event owner will only see number, no names
 });
 
+// Indexing all text fields for keyword search
+eventSchema.index({"$**": "text"});
+
 // Setting up event model
 const Event = mongoose.model("events", eventSchema);
 
