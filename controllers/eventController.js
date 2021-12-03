@@ -1,5 +1,6 @@
 import moment from "moment";
 import Event from "../models/event.js";
+import User from "../models/user.js";
 // import Image from "../models/image.js";
 
 // landing page: you get all events happening today
@@ -86,27 +87,41 @@ const getEvent = (req, res, next) => {
 
 const addEvent = async (req, res, next) => {
 	console.log(req.file);
-	console.log(req.body);
+    
+	try {
+		// Get user/author creating the event from the database
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
 
-	const newEvent = new Event(req.body);
+		// Create new event with data from client-side
+		const newEvent = await Event.create(req.body);
+		
+		// Save event as one of the user's listings (one-to-many)
+		user.createdListings.push(newEvent);
+		await user.save();
 
-	await newEvent.save((err, doc) => {
-		if (err) {
-			next(err);
-			return;
-		}
-		// for testing:
-		res.status(201);
-		res.send(doc);
-		// for production:
-		// console.log(`>> New event ${doc._id}, title: "${doc.name}" saved to database. Created by ${doc.author}`);
-		// res.status(201);
-		// res.json({
-		//     _id: doc.id,
-		//     name: doc.name,
-		//     start_date: doc.start_date
-		// })
-	});
+        // Set user as author/creator of the new event (one-to-one)
+		newEvent.author = user._id;
+		await newEvent.save((err, doc) => {
+			if (err) {
+				next(err);
+				return;
+			}
+			// for testing:
+			res.status(201);
+			res.send(doc);
+			// for production:
+			// console.log(`>> New event ${doc._id}, title: "${doc.name}" saved to database. Created by ${doc.author}`);
+			// res.status(201);
+			// res.json({
+			//     _id: doc.id,
+			//     name: doc.name,
+			//     start_date: doc.start_date
+			// })
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 const updateEvent = (req, res, next) => {};
