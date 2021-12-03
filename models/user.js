@@ -65,22 +65,15 @@ userSchema.statics.login = async (userData) => {
 		// Compare the password with saved hash
 		await compareHashes(userData.password, user.password);
 
-		return user.toJSON();
+		// return only a simplified JSON (making sure no password/hashes are sent)
+        return {
+            _id: user._id,
+            name: user.name,
+            email: user.email
+        }
 	} catch (error) {
 		return null;
 	}
-};
-
-/**
- * Instance method to convert a User object into a shorter JSON (and make sure, no hashes/passwords are sent)
- * @returns {object} - simplefied JSON representation
- */
-userSchema.methods.toJSON = () => {
-	return {
-		_id: this._id,
-		name: this.name,
-		email: this.email,
-	};
 };
 
 // Setting up user model
