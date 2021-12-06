@@ -5,7 +5,8 @@ const validate = (rules) => {
 	middlewares.push((req, res, next) => {
 		const result = validationResult(req);
 		if (result.isEmpty()) {
-			return next();
+			next();
+			return;
 		}
 		// console.log(result);
 		res.status(400);

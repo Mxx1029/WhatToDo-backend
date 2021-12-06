@@ -3,11 +3,12 @@ import User from "../models/user.js";
 
 // Get a list of all users
 const getUsers = (req, res) => {
-	// just for testing
-	res.json({ success: "ok" });
+	res.send("works, but no frontend functionality");
 };
 
-const getUser = () => {};
+const getUser = () => {
+	res.send("works, but no frontend functionality");
+};
 
 // Add/register a new user
 const addUser = async (req, res, next) => {
@@ -65,9 +66,13 @@ const loginUser = async (req, res, next) => {
 };
 
 // Update a user
-const updateUser = () => {};
+const updateUser = () => {
+	res.send("works, but no frontend functionality");
+};
 
 // Delete a user
-const deleteUser = () => {};
+const deleteUser = () => {
+	res.send("works, but no frontend functionality");
+};
 
 export { getUsers, getUser, addUser, loginUser, updateUser, deleteUser };
