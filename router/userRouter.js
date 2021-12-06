@@ -17,6 +17,9 @@ router.get("/", userController.getUsers);
 router.get("/:userId", userController.getUser);
 // register a user
 router.post("/", validate(registerRules), userController.addUser);
+
+
+
 // login a user --> req.body will contain email/password
 router.post("/login", validate(loginRules), userController.loginUser); // --> after this redirect to /users/:userId/events/today ?
 router.put("/:userId", userController.updateUser);
@@ -35,8 +38,9 @@ router.get("/:userId/events/:eventId", eventController.getEvent);
 router.post(
 	"/:userId/events",
     // in newEventRules.js uncomment validation of the date fields (for REST client testing, the date fields are strings)
-	validate(newEventRules), 
+
 	upload.single("uploaded_image"),
+	validate(newEventRules), 
 	eventController.addEvent
 );
 router.put("/:userId/events/:eventId", eventController.updateEvent);
