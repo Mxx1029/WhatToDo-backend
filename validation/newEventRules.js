@@ -5,12 +5,12 @@ const newEventRules = [
 		.exists()
 		.trim()
 		.escape()
-		.withMessage("listing-name-has-invalid-input"),
+		.withMessage("Please give your listing a title"),
 	body("address")
 		.exists()
 		.trim()
 		.escape()
-		.withMessage("address-has-invalid-input"),
+		.withMessage("Please provide an address"),
 	body("category")
 		.isIn([
 			"Free",
@@ -27,49 +27,48 @@ const newEventRules = [
 			"Reading",
 		])
 		.exists()
-		.withMessage("category-invalid"),
+		.withMessage("Please choose a category"),
 	body("summary")
 		.exists()
 		.trim()
 		.escape()
-		.withMessage("summary-has-invalid-input"),
+		.withMessage("Please provide a teaser for your listing"),
 	body("description")
 		.exists()
 		.trim()
 		.escape()
-		.withMessage("description-has-invalid-input"),
+		.withMessage("Please provide some information about your listing"),
 	body("start_date")
-    // for testing Date fields become strings
 		.isAscii() 
 		.trim()
 		.escape()
-		.withMessage("start-date-has-invalid-input"),
+		.withMessage("Please provide a start date"),
 	body("end_date")
 		.isAscii()
 		.trim()
 		.escape()
-		.withMessage("end-date-has-invalid-input"),
+		.withMessage("Please provide an end date"),
 	body("start_time")
 		.isAscii()
 		.trim()
 		.escape()
-		.withMessage("start-time-has-invalid-input"),
+		.withMessage("Please provide a start time"),
 	body("end_time")
 		.isAscii()
 		.trim()
 		.escape()
-		.withMessage("end-time-has-invalid-input"),
-	// body("booking_site").trim().escape(),
-	// body("website").trim().escape(),
-	body("email").isEmail().normalizeEmail().withMessage("email-invalid"),
+		.withMessage("Please provide an end time"),
+	body("booking_site").trim().escape(),
+	body("website").trim().escape(),
+	body("email").isEmail().normalizeEmail().withMessage("Please provide a valid email address"),
 	body("phone")
 		.isNumeric({ no_symbols: false })
 		.trim()
 		.escape()
-		.withMessage("phone-has-invalid-input"),
-	// body("instagram").trim().escape(),
-	// body("facebook").trim().escape(),
-	// body("image").trim().escape(),
+		.withMessage("Phone number format invalid"),
+	body("instagram").trim().escape(),
+	body("facebook").trim().escape(),
+	body("image").trim().escape(),
 ];
 
 export default newEventRules;
