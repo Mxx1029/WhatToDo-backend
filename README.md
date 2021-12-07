@@ -6,11 +6,7 @@ Backend to [WhatToDo-App](https://github.com/Mxx1029/WhatToDo-App/)
 ## Usage
 
 - npm install
-- npm start (??)
+- create .env file (see env.example)
+- npm start
 
-## Open questions (tbd) or todos
-### TBDs
-- 
-### TODOs
-- file uploads for event images
-- in event.js: category is a different schema?, enum makes no sense, if an event can have more than one category
+
