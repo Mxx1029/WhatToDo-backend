@@ -22,9 +22,9 @@ GET http://localhost:9012/events/today
 
 ###
 GET http://localhost:9012/events
-    ?category=Family
-    &date=2021-12-17T12:00:00.000Z
-    &keyword=Chips
+    ?category=Free
+    &date=2021-12-10T12:00:00.000Z
+    &keyword=Plastic
 
 ### after each backup start, you need to get a fresh eventId from Compass/Atlas for the url
 GET http://localhost:9012/events/61a7365967131f5aece9bccf

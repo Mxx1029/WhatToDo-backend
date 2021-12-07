@@ -28,206 +28,27 @@ const getEventsForToday = (req, res, next) => {
 const getEvents = (req, res, next) => {
 	const categoryFilter = req.query.category;
 	const dateFilter = req.query.date;
-	// const keywordFilter = req.query.keyword.replaceAll("%20", " ");
 	const keywordFilter = req.query.keyword;
 
-	// switch (true) {
-	// 	case categoryFilter && dateFilter && keywordFilter:
-	// 		Event.find(
-	// 			{
-	// 				category: categoryFilter,
-	// 				start_date: { $lte: moment(dateFilter) },
-	// 				end_date: { $gte: moment(dateFilter) },
-	// 				// ---- 2 versions for keyword search:
-	//                 //  partial match: if you look for "Chicken Concrete", THIS will find "Chicken" and "Concrete" and "Chicken Concrete" (searches in all text fields)
-	//                 $text: { $search: `^.*${keywordFilter}.*$` },
-    //                 //  full match: if you look for "Chicken Concrete", THIS will look in the fields provided and find only "Chicken Concrete", no just "Chicken", or just "Concrete" events
-    //                 // $or: [
-    //                 //     { name: { $regex: `^.*${keywordFilter}.*$` } },
-    //                 //     { address: { $regex: `^.*${keywordFilter}.*$` } },
-    //                 //     { summary: { $regex: `^.*${keywordFilter}.*$` } },
-    //                 //     { description: { $regex: `^.*${keywordFilter}.*$` } },
-    //                 // ],
-	// 			},
-	// 			(err, docs) => callback(err, docs, res, next)
-	// 		);
-	// 		break;
-	// 	case categoryFilter && dateFilter:
-	//         Event.find(
-	//             {
-	//                 category: categoryFilter,
-	//                 start_date: { $lte: moment(dateFilter) },
-	//                 end_date: { $gte: moment(dateFilter) },
-	//             },
-	//             (err, docs) => callback(err, docs, res, next)
-	//         );
-	// 		break;
-	// 	case categoryFilter && keywordFilter:
-	//         Event.find(
-	//             { 
-    //                 category: categoryFilter,
-	// 			    // ---- 2 versions for keyword search:
-	//                 // partial match: if you look for "Chicken Concrete", THIS will find "Chicken" and "Concrete" and "Chicken Concrete" (searches in all text fields)
-	//                 $text: { $search: `^.*${keywordFilter}.*$` },
-	//                 // full match: if you look for "Chicken Concrete", THIS will look in the fields provided and find only "Chicken Concrete", no just "Chicken", or just "Concrete" events
-	//                 // $or: [
-	// 	            //     { name: { $regex: `^.*${keywordFilter}.*$` } },
-	// 	            //     { address: { $regex: `^.*${keywordFilter}.*$` } },
-	// 	            //     { summary: { $regex: `^.*${keywordFilter}.*$` } },
-	// 	            //     { description: { $regex: `^.*${keywordFilter}.*$` } },
-	//                 // ],
-	//             },
-	//             (err, docs) => callback(err, docs, res, next)
-	//         );
-	// 		break;
-	// 	case dateFilter && keywordFilter:
-	//         Event.find(
-	//             {
-	//                 start_date: { $lte: moment(dateFilter) },
-	//                 end_date: { $gte: moment(dateFilter) },
-	// 				// ---- 2 versions for keyword search:
-	//                 // partial match: if you look for "Chicken Concrete", THIS will find "Chicken" and "Concrete" and "Chicken Concrete" (searches in all text fields)
-	//                 $text: { $search: `^.*${keywordFilter}.*$` },
-	//                 // full match: if you look for "Chicken Concrete", THIS will look in the fields provided and find only "Chicken Concrete", no just "Chicken", or just "Concrete" events
-	//                 // $or: [
-	// 	            //     { name: { $regex: `^.*${keywordFilter}.*$` } },
-	// 	            //     { address: { $regex: `^.*${keywordFilter}.*$` } },
-	// 	            //     { summary: { $regex: `^.*${keywordFilter}.*$` } },
-	// 	            //     { description: { $regex: `^.*${keywordFilter}.*$` } },
-	//                 // ],
-	//             },
-	//             (err, docs) => callback(err, docs, res, next)
-	//         );
-	// 		break;
-	// 	case categoryFilter:
-	//         Event.find({ category: categoryFilter }, (err, docs) => callback(err, docs, res, next));
-	// 		break;
-	// 	case dateFilter:
-	//         Event.find(
-	//             {
-	//                 start_date: { $lte: moment(dateFilter) },
-	//                 end_date: { $gte: moment(dateFilter) },
-	//             },
-	//             (err, docs) => callback(err, docs, res, next)
-	//         );
-	// 		break;
-	// 	case keywordFilter:
-	//         Event.find(
-    //             { 
-    //                 // ---- 2 versions for keyword search:
-	//                 // partial match: if you look for "Chicken Concrete", THIS will find "Chicken" and "Concrete" and "Chicken Concrete" (searches in all text fields)
-	//                 $text: { $search: `^.*${keywordFilter}.*$` },
-	//                 // full match: if you look for "Chicken Concrete", THIS will look in the fields provided and find only "Chicken Concrete", no just "Chicken", or just "Concrete" events
-	//                 $or: [
-	// 	                { name: { $regex: `^.*${keywordFilter}.*$` } },
-	// 	                { address: { $regex: `^.*${keywordFilter}.*$` } },
-	// 	                { summary: { $regex: `^.*${keywordFilter}.*$` } },
-	// 	                { description: { $regex: `^.*${keywordFilter}.*$` } },
-	//                 ], 
-    //             }, 
-    //             (err, docs) => callback(err, docs, res, next));
-	// 		break;
-	// 	default:
-	//         // default: show events for today (landing page)
-	// 	    getEventsForToday(req, res, next);
-	// 		break;
-	// }
-
-	if (categoryFilter && dateFilter && keywordFilter) {
-		Event.find(
-			{
-				category: categoryFilter,
-				start_date: { $lte: moment(dateFilter) },
-				end_date: { $gte: moment(dateFilter) },
-				// ---- 2 versions for keyword search:
-				// partial match: if you look for "Chicken Concrete", THIS will find "Chicken" and "Concrete" and "Chicken Concrete" (searches in all text fields)
-				$text: { $search: `^.*${keywordFilter}.*$` },
-				// full match: if you look for "Chicken Concrete", THIS will look in the fields provided and find only "Chicken Concrete", no just "Chicken", or just "Concrete" events
-				// $or: [
-				// 	{ name: { $regex: `^.*${keywordFilter}.*$` } },
-				// 	{ address: { $regex: `^.*${keywordFilter}.*$` } },
-				// 	{ summary: { $regex: `^.*${keywordFilter}.*$` } },
-				// 	{ description: { $regex: `^.*${keywordFilter}.*$` } },
-				// ],
-			},
-			(err, docs) => callback(err, docs, res, next)
-		);
-	} else if (categoryFilter && dateFilter) {
-		Event.find(
-			{
-				category: categoryFilter,
-				start_date: { $lte: moment(dateFilter) },
-				end_date: { $gte: moment(dateFilter) },
-			},
-			(err, docs) => callback(err, docs, res, next)
-		);
-	} else if (categoryFilter && keywordFilter) {
-		Event.find(
-			{
-				category: categoryFilter,
-				// ---- 2 versions for keyword search:
-				// partial match: if you look for "Chicken Concrete", THIS will find "Chicken" and "Concrete" and "Chicken Concrete" (searches in all text fields)
-				$text: { $search: `^.*${keywordFilter}.*$` },
-				// full match: if you look for "Chicken Concrete", THIS will look in the fields provided and find only "Chicken Concrete", no just "Chicken", or just "Concrete" events
-				// $or: [
-				// 	{ name: { $regex: `^.*${keywordFilter}.*$` } },
-				// 	{ address: { $regex: `^.*${keywordFilter}.*$` } },
-				// 	{ summary: { $regex: `^.*${keywordFilter}.*$` } },
-				// 	{ description: { $regex: `^.*${keywordFilter}.*$` } },
-				// ],
-			},
-			(err, docs) => callback(err, docs, res, next)
-		);
-	} else if (dateFilter && keywordFilter) {
-		Event.find(
-			{
-				start_date: { $lte: moment(dateFilter) },
-				end_date: { $gte: moment(dateFilter) },
-				// ---- 2 versions for keyword search:
-				// partial match: if you look for "Chicken Concrete", THIS will find "Chicken" and "Concrete" and "Chicken Concrete" (searches in all text fields)
-				$text: { $search: `^.*${keywordFilter}.*$` },
-				// full match: if you look for "Chicken Concrete", THIS will look in the fields provided and find only "Chicken Concrete", no just "Chicken", or just "Concrete" events
-				// $or: [
-				// 	{ name: { $regex: `^.*${keywordFilter}.*$` } },
-				// 	{ address: { $regex: `^.*${keywordFilter}.*$` } },
-				// 	{ summary: { $regex: `^.*${keywordFilter}.*$` } },
-				// 	{ description: { $regex: `^.*${keywordFilter}.*$` } },
-				// ],
-			},
-			(err, docs) => callback(err, docs, res, next)
-		);
-	} else if (categoryFilter) {
-		Event.find({ category: categoryFilter }, (err, docs) =>
-			callback(err, docs, res, next)
-		);
-	} else if (dateFilter) {
-		Event.find(
-			{
-				start_date: { $lte: moment(dateFilter) },
-				end_date: { $gte: moment(dateFilter) },
-			},
-			(err, docs) => callback(err, docs, res, next)
-		);
-	} else if (keywordFilter) {
-		Event.find(
-			{
-				// ---- 2 versions for keyword search:
-				// partial match: if you look for "Chicken Concrete", THIS will find "Chicken" and "Concrete" and "Chicken Concrete" (searches in all text fields)
-				$text: { $search: `^.*${keywordFilter}.*$` },
-				// full match: if you look for "Chicken Concrete", THIS will look in the fields provided and find only "Chicken Concrete", no just "Chicken", or just "Concrete" events
-				// $or: [
-				// 	{ name: { $regex: `^.*${keywordFilter}.*$` } },
-				// 	{ address: { $regex: `^.*${keywordFilter}.*$` } },
-				// 	{ summary: { $regex: `^.*${keywordFilter}.*$` } },
-				// 	{ description: { $regex: `^.*${keywordFilter}.*$` } },
-				// ],
-			},
-			(err, docs) => callback(err, docs, res, next)
-		);
-	} else {
-		// default: show events for today (landing page)
-		getEventsForToday(req, res, next);
-	}
+    const filters = {};
+    if (categoryFilter) {
+        filters.category = categoryFilter;
+    };
+    if (dateFilter) {
+        filters.start_date = { $lte: moment(dateFilter) },
+        filters.end_date = { $gte: moment(dateFilter) }
+    };
+    if (keywordFilter) {
+        // ---- 2 versions for keyword search:
+        // partial match: if you look for "Chicken Concrete", THIS will find "Chicken" and "Concrete" and "Chicken Concrete" (searches in all text fields)
+        filters.$text = { $search: `^.*${keywordFilter}.*$` }
+        // full match: if you look for "Chicken Concrete", THIS will look in the fields provided and find only "Chicken Concrete", no just "Chicken", or just "Concrete" events
+        // filters.$or = [ { name: { $regex: `^.*${keywordFilter}.*$` } },
+        // 	{ address: { $regex: `^.*${keywordFilter}.*$` } },
+        // 	{ summary: { $regex: `^.*${keywordFilter}.*$` } },
+        // 	{ description: { $regex: `^.*${keywordFilter}.*$` } }, ]
+    };
+    Event.find(filters, (err, docs) => callback(err, docs, res, next));
 };
 
 // user clicks on a event
