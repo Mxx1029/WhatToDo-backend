@@ -7,8 +7,8 @@ const validate = (rules) => {
 		if (result.isEmpty()) {
 			return next();
 		}
-		// console.log(result);
-		res.status(400);
+		console.log(result);
+		res.status(302);
 		res.json({
 			errors: result.errors.map((e) => e.msg),
 		});

@@ -59,17 +59,17 @@ const newEventRules = [
 		.trim()
 		.escape()
 		.withMessage("end-time-has-invalid-input"),
-	// body("booking_site").trim().escape(),
-	// body("website").trim().escape(),
+	body("booking_site").trim().escape(),
+	body("website").trim().escape(),
 	body("email").isEmail().normalizeEmail().withMessage("email-invalid"),
 	body("phone")
 		.isNumeric({ no_symbols: false })
 		.trim()
 		.escape()
 		.withMessage("phone-has-invalid-input"),
-	// body("instagram").trim().escape(),
-	// body("facebook").trim().escape(),
-	// body("image").trim().escape(),
+	body("instagram").trim().escape(),
+	body("facebook").trim().escape(),
+	body("image").trim().escape(),
 ];
 
 export default newEventRules;

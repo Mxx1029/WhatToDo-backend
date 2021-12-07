@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 
+
 // Get a list of all users
 const getUsers = (req, res) => {
 	// just for testing
@@ -11,13 +12,15 @@ const getUser = () => {};
 
 // Add/register a new user
 const addUser = async (req, res, next) => {
+
 	try {
 		// Check if user already exists
 		const userCheck = await User.findOne({ email: req.body.email });
 		if (userCheck) {
-			const err = new Error("Email already exists");
-			err.status = 400;
-			next(err);
+			// const err = new Error("Email already exists");
+			res.status(200).json({error: "Email already exists"})
+			// res.status = 401;
+			// next(err);
 			return;
 		}
 
@@ -52,13 +55,14 @@ const loginUser = async (req, res, next) => {
 			const err = new Error("User not found. Register first.");
 			err.status = 400;
 			next(err);
+			
 			return;
 		}
 
 		// Create JWT token
 		const token = jwt.sign({ _id: user._id }, process.env.SECRET);
 
-		res.json({ user, token });
+		res.status(200).json({ user, token });
 	} catch (error) {
 		next(error);
 	}
