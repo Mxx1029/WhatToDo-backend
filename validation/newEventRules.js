@@ -10,7 +10,7 @@ const newEventRules = [
 		.exists()
 		.trim()
 		.escape()
-		.withMessage("Please provide an address"),
+		.withMessage("Please provide the address where your listing takes places"),
 	body("category")
 		.isIn([
 			"Free",
@@ -39,7 +39,7 @@ const newEventRules = [
 		.escape()
 		.withMessage("Please provide some information about your listing"),
 	body("start_date")
-		.isAscii() 
+		.isAscii()
 		.trim()
 		.escape()
 		.withMessage("Please provide a start date"),
@@ -60,12 +60,15 @@ const newEventRules = [
 		.withMessage("Please provide an end time"),
 	body("booking_site").trim().escape(),
 	body("website").trim().escape(),
-	body("email").isEmail().normalizeEmail().withMessage("Please provide a valid email address"),
+	body("email")
+		.isEmail()
+		.normalizeEmail()
+		.withMessage("Please provide a valid contact email address"),
 	body("phone")
 		.isNumeric({ no_symbols: false })
 		.trim()
 		.escape()
-		.withMessage("Phone number format invalid"),
+		.withMessage("Contact phone number format invalid"),
 	body("instagram").trim().escape(),
 	body("facebook").trim().escape(),
 	body("image").trim().escape(),

@@ -6,6 +6,7 @@ import validate from "../middlewares/validationCheck.js";
 import registerRules from "../validation/registerRules.js";
 import loginRules from "../validation/loginRules.js";
 import newEventRules from "../validation/newEventRules.js";
+import checkLogin from "../middlewares/checkLogin.js";
 
 const router = express.Router();
 
@@ -17,8 +18,6 @@ router.get("/", userController.getUsers);
 router.get("/:userId", userController.getUser);
 // register a user
 router.post("/", validate(registerRules), userController.addUser);
-
-
 
 // login a user --> req.body will contain email/password
 router.post("/login", validate(loginRules), userController.loginUser); // --> after this redirect to /users/:userId/events/today ?
@@ -34,13 +33,11 @@ router.get("/:userId/events", eventController.getEvents);
 router.get("/:userId/events/:eventId", eventController.getEvent);
 
 // routes for CRUD actions on events (only possible for logged in users)
-// these need login checks (secure endpoints) loginCheck() function?
 router.post(
 	"/:userId/events",
-    // in newEventRules.js uncomment validation of the date fields (for REST client testing, the date fields are strings)
-
+	checkLogin,
 	upload.single("uploaded_image"),
-	validate(newEventRules), 
+	validate(newEventRules),
 	eventController.addEvent
 );
 router.put("/:userId/events/:eventId", eventController.updateEvent);

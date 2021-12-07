@@ -5,12 +5,14 @@ const validate = (rules) => {
 	middlewares.push((req, res, next) => {
 		const result = validationResult(req);
 		if (result.isEmpty()) {
-			return next();
+			next();
+			return;
 		}
 		// console.log(result);
-		res.status(400);
+		res.status(200); // otherwise the JSON is not sent to FE
 		res.json({
 			errors: result.errors.map((e) => e.msg),
+            // errors: { errors.array() } // maybe this ? (Fahim Mentoring_12)
 		});
 	});
 	return middlewares;
