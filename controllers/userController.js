@@ -54,9 +54,10 @@ const loginUser = async (req, res, next) => {
 	try {
 		const user = await User.login(req.body);
 		if (!user) {
-			const err = new Error("User not found. Register first.");
-			err.status = 500;
-			next(err);
+			// const err = new Error("User not found. Register first.");
+			res.status = 400;
+            res.json({ errors: ["User not found or password doesn't match"] })
+			// next(err);
 			
 			return;
 		}
