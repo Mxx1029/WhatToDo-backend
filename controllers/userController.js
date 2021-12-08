@@ -19,7 +19,8 @@ const addUser = async (req, res, next) => {
 		const userCheck = await User.findOne({ email: req.body.email });
 		if (userCheck) {
 			// const err = new Error("Email already exists");
-			res.status(200).json({error: "Email already exists"})
+			res.status(400)
+            res.json({ errors: ["Email already exists"] });
 			// res.status = 401;
 			// next(err);
 			return;
@@ -42,7 +43,7 @@ const addUser = async (req, res, next) => {
 		// To make sure no email address is published into the log
 		if (error.message.indexOf("email") !== -1) {
 			console.log(">> Error while registering user (email)");
-			return res.status(400).json({ error: "Check inputs" });
+			return res.status(400).json({ errors: ["Check inputs"] });
 		}
 		next(error);
 	}
@@ -54,7 +55,7 @@ const loginUser = async (req, res, next) => {
 		const user = await User.login(req.body);
 		if (!user) {
 			const err = new Error("User not found. Register first.");
-			err.status = 400;
+			err.status = 500;
 			next(err);
 			
 			return;

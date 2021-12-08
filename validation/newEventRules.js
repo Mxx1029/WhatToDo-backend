@@ -2,12 +2,14 @@ import { body } from "express-validator";
 
 const newEventRules = [
 	body("name")
-		.exists()
+		.not()
+		.isEmpty()
 		.trim()
 		.escape()
 		.withMessage("Please give your listing a title"),
 	body("address")
-		.exists()
+		.not()
+		.isEmpty()
 		.trim()
 		.escape()
 		.withMessage("Please provide the address where your listing takes places"),
@@ -26,15 +28,18 @@ const newEventRules = [
 			"Food",
 			"Reading",
 		])
-		.exists()
+		.not()
+		.isEmpty()
 		.withMessage("Please choose a category"),
 	body("summary")
-		.exists()
+		.not()
+		.isEmpty()
 		.trim()
 		.escape()
 		.withMessage("Please provide a teaser for your listing"),
 	body("description")
-		.exists()
+		.not()
+		.isEmpty()
 		.trim()
 		.escape()
 		.withMessage("Please provide some information about your listing"),

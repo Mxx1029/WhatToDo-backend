@@ -3,7 +3,7 @@ import config from "./libs/config.js";
 import connect from "./libs/database.js";
 import eventRouter from "./router/eventRouter.js";
 import userRouter from "./router/userRouter.js";
-import errorController from "./controllers/errorController.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
 
 // Setup express and connect to database
@@ -18,7 +18,7 @@ server.use("/events", eventRouter);
 server.use("/users", userRouter);
 
 // Endpoint to handle errors
-server.use(errorController);
+server.use(errorHandler);
 
 // Connect to port
 const PORT = process.env.PORT;

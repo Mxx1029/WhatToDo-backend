@@ -12,20 +12,15 @@ const userSchema = new Schema({
 	name: {
 		type: String,
 		required,
-		minLength: 3,
-		maxLength: 20,
 	},
 	email: {
 		type: String,
 		required,
 		unique,
-		minLength: 5,
 	},
 	password: {
 		type: String,
 		required,
-		minLength: 8,
-		maxLength: 65,
 	},
 	wishlist: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
 	attending: [{ type: Schema.Types.ObjectId, ref: "events" }], // ?
