@@ -10,7 +10,7 @@ const validate = (rules) => {
 		}
 
 		console.log(result);
-		res.status(302);
+		res.status(400);
 		//res.status(200);  otherwise the JSON is not sent to FE
 		res.json({
 			errors: result.errors.map((e) => e.msg),
