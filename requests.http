@@ -21,10 +21,18 @@ Content-Type: application/json
 GET http://localhost:9012/events/today
 
 ###
-GET http://localhost:9012/events
-    ?category=Free
-    &date=2021-12-10T12:00:00.000Z
-    &keyword=Plastic
+POST http://localhost:9012/events
+    # it was a GET request before w/ req.query
+    # ?category=Free
+    # &date=2021-12-10T12:00:00.000Z
+    # &keyword=Plastic
+Content-Type: application/json
+
+{
+    "category": "Food",
+    "date": "2021-12-22T12:00:00.000Z",
+    "keyword": "Customer"
+}
 
 ### after each backup start, you need to get a fresh eventId from Compass/Atlas for the url
 GET http://localhost:9012/events/61a7365967131f5aece9bccf
