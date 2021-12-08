@@ -27,10 +27,10 @@ router.delete("/:userId", userController.deleteUser);
 // routes for browsing events with logged in user
 // landing page after successful login
 router.get("/:userId/events/today", eventController.getEventsForToday);
-// get events using req.query
-router.get("/:userId/events", eventController.getEvents);
 // user clicks on a event
 router.get("/:userId/events/:eventId", eventController.getEvent);
+// query events using req.body
+router.post("/:userId/events", eventController.getEvents);
 
 // routes for CRUD actions on events (only possible for logged in users)
 router.post(

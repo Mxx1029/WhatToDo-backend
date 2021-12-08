@@ -26,9 +26,9 @@ const getEventsForToday = (req, res, next) => {
 
 // get events using req.query
 const getEvents = (req, res, next) => {
-	const categoryFilter = req.query.category;
-	const dateFilter = req.query.date;
-	const keywordFilter = req.query.keyword;
+	const categoryFilter = req.body.category;
+	const dateFilter = req.body.date;
+	const keywordFilter = req.body.keyword;
 
     const filters = {};
     if (categoryFilter) {
