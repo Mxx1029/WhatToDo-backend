@@ -30,31 +30,102 @@ const getEvents = (req, res, next) => {
 	const dateFilter = req.body.date;
 	const keywordFilter = req.body.keyword;
 
-    const filters = {};
-    if (categoryFilter) {
-        filters.category = categoryFilter;
-    };
-    if (dateFilter) {
-        filters.start_date = { $lte: moment(dateFilter) },
-        filters.end_date = { $gte: moment(dateFilter) }
-    };
-    if (keywordFilter) {
-        // ---- 2 versions for keyword search:
-        // partial match: if you look for "Chicken Concrete", THIS will find "Chicken" and "Concrete" and "Chicken Concrete" (searches in all text fields)
-        filters.$text = { $search: `^.*${keywordFilter}.*$` }
-        // full match: if you look for "Chicken Concrete", THIS will look in the fields provided and find only "Chicken Concrete", no just "Chicken", or just "Concrete" events
-        // filters.$or = [ { name: { $regex: `^.*${keywordFilter}.*$` } },
-        // 	{ address: { $regex: `^.*${keywordFilter}.*$` } },
-        // 	{ summary: { $regex: `^.*${keywordFilter}.*$` } },
-        // 	{ description: { $regex: `^.*${keywordFilter}.*$` } }, ]
-    };
-    Event.find(filters, (err, docs) => callback(err, docs, res, next));
+	const filters = {};
+	if (categoryFilter) {
+		filters.category = categoryFilter;
+	}
+	if (dateFilter) {
+		(filters.start_date = { $lte: moment(dateFilter) }),
+			(filters.end_date = { $gte: moment(dateFilter) });
+	}
+	if (keywordFilter) {
+		// ---- 2 versions for keyword search:
+		// partial match: if you look for "Chicken Concrete", THIS will find "Chicken" and "Concrete" and "Chicken Concrete" (searches in all text fields)
+		filters.$text = { $search: `^.*${keywordFilter}.*$` };
+		// full match: if you look for "Chicken Concrete", THIS will look in the fields provided and find only "Chicken Concrete", no just "Chicken", or just "Concrete" events
+		// filters.$or = [ { name: { $regex: `^.*${keywordFilter}.*$` } },
+		// 	{ address: { $regex: `^.*${keywordFilter}.*$` } },
+		// 	{ summary: { $regex: `^.*${keywordFilter}.*$` } },
+		// 	{ description: { $regex: `^.*${keywordFilter}.*$` } }, ]
+	}
+	Event.find(filters, (err, docs) => callback(err, docs, res, next));
 };
 
 // user clicks on a event
 const getEvent = (req, res, next) => {
 	const eventId = req.params.eventId;
 	Event.findOne({ _id: eventId }, (err, doc) => callback(err, doc, res, next));
+};
+
+const getWishlist = async (req, res, next) => {
+	try {
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
+		res.status(200);
+		res.json(user.wishlist);
+	} catch (error) {
+		next(error);
+	}
+};
+
+const addToWishlist = async (req, res, next) => {
+	try {
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
+		const eventId = req.params.eventId;
+		const event = await Event.findOne({ _id: eventId });
+		if (!user.wishlist.includes(event._id)) {
+			user.wishlist.push(event);
+            // for testing: 
+            user.save()
+                .then(() => {
+                    res.status(200);
+                    res.json({ success: "added to wishlist" })
+                })
+                .catch(err => {
+                    res.status(500);
+                    res.json({ errors: [ `during saving to wishlist: " ${err.message} `] });
+                })
+            // for production:
+			// await user.save();
+			// res.status(200);
+			// res.json({ success: "added to wishlist" });
+		}
+	} catch (error) {
+		next(error);
+	}
+};
+
+const removeFromWishlist = async (req, res, next) => {
+	try {
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
+		const eventId = req.params.eventId;
+		const event = await Event.findOne({ _id: eventId });
+		if (!user.wishlist.includes(event._id)) {
+			res.status(200);
+            res.json({ success: "removed from wishlist"});
+		}
+		user.wishlist.splice(event._id, 1); // ??
+        // also try out this:
+        // user.wishlist.id(event._id).remove();
+        // for testing: 
+        user.save()
+            .then(() => {
+                res.status(200);
+		        res.json({ success: "removed from wishlist" });
+            })
+            .catch(err => {
+                res.status(500);
+                res.json({ errors: [ `during removing from wishlist: " ${err.message} `] });
+            })
+        // for production:
+		// await user.save();
+		// res.status(200);
+		// res.json({ success: "removed from wishlist" });
+	} catch (error) {
+		next(error);
+	}
 };
 
 const addEvent = async (req, res, next) => {
@@ -108,6 +179,9 @@ export {
 	getEventsForToday,
 	getEvents,
 	getEvent,
+	getWishlist,
+	addToWishlist,
+	removeFromWishlist,
 	addEvent,
 	updateEvent,
 	deleteEvent,

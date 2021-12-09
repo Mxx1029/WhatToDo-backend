@@ -9,7 +9,7 @@ router.get("/today", eventController.getEventsForToday);
 // click on one event
 router.get("/:eventId", eventController.getEvent); 
 // query events using req.body
-router.post("/", eventController.getEvents);
+router.post("/search", eventController.getEvents);
 
 
 export default router;

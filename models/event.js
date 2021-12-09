@@ -11,12 +11,13 @@ const date = moment.utc(); // is this done every time, there's a new instance of
 
 // Setting up event schema
 const eventSchema = new Schema({
-	name: { type: String, required, minLength: 1, maxLength: 50 },
-	address: { type: String, required, minLength: 3, maxLength: 100 },
+	name: { type: String, required },
+	address: { type: String, required },
 	category: {
-		// type: [ { type: String, enum: ["Free", "Music", "Workshop", "Film", "Family", "Market", "Exhibition", "Party", "Performing Arts", "Opening", "Food", "Reading"] } ], required // found this here, apparently then multi-select works for enums: https://stackoverflow.com/questions/27447876/is-it-possible-to-create-a-multi-select-enum-in-mongoose
+		// type: [ { type: String, enum: ["Anything", "Free", "Music", "Workshop", "Film", "Family", "Market", "Exhibition", "Party", "Performing Arts", "Opening", "Food", "Reading"] } ], required // found this here, apparently then multi-select works for enums: https://stackoverflow.com/questions/27447876/is-it-possible-to-create-a-multi-select-enum-in-mongoose
 		type: String,
 		enum: [
+            "Anything",
 			"Free",
 			"Music",
 			"Workshop",
@@ -32,8 +33,8 @@ const eventSchema = new Schema({
 		],
 		required,
 	},
-	summary: { type: String, required, minLenth: 3, maxLength: 100 },
-	description: { type: String, required, minLength: 3, maxLength: 1000 },
+	summary: { type: String, required },
+	description: { type: String, required },
 
 	// Date and Time
 	// min 3 day ahead, max 6 months to the future
@@ -65,11 +66,11 @@ const eventSchema = new Schema({
 	booking_site: { type: String },
 
 	// Contact Details
-	website: { type: String, minLength: 5 },
+	website: { type: String },
 	email: { type: String },
-	phone: { type: String, minLength: 6, maxLength: 25 }, // frontend max: 15, put 25 here for seeding fakes
-	instagram: { type: String, minLength: 3 },
-	facebook: { type: String, minLength: 3 },
+	phone: { type: String }, 
+	instagram: { type: String },
+	facebook: { type: String },
 
 	// Image
 	// image: { type: Schema.Types.ObjectId, ref: "images"
