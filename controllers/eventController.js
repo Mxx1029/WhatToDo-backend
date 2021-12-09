@@ -76,9 +76,20 @@ const addToWishlist = async (req, res, next) => {
 		const event = await Event.findOne({ _id: eventId });
 		if (!user.wishlist.includes(event._id)) {
 			user.wishlist.push(event);
-			await user.save();
-			res.status(200);
-			res.send("added to wishlist");
+            // for testing: 
+            user.save()
+                .then(() => {
+                    res.status(200);
+                    res.json({ success: "added to wishlist" })
+                })
+                .catch(err => {
+                    res.status(500);
+                    res.json({ errors: [ `during saving to wishlist: " ${err.message} `] });
+                })
+            // for production:
+			// await user.save();
+			// res.status(200);
+			// res.json({ success: "added to wishlist" });
 		}
 	} catch (error) {
 		next(error);

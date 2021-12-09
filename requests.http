@@ -39,7 +39,7 @@ GET http://localhost:9012/events/61a7365967131f5aece9bccf
 
 ###
 POST http://localhost:9012/users/61af272e8b7b64ac14434cc2/events
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWFmMjcyZThiN2I2NGFjMTQ0MzRjYzIiLCJpYXQiOjE2Mzg4Njg5NDl9.JmIql80HeOdJLTuEaqQ2zymfC2gsZfXkHC4mkqlEs1A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWFmMjcyZThiN2I2NGFjMTQ0MzRjYzIiLCJpYXQiOjE2MzkwNDgxMTN9.Txw5hDMdRHNaaIJ6e_-k81l-jXn8qaa5GNLCIWMxoz0
 Content-Type: application/json
 Date: {{$datetime iso8601}}    
 
