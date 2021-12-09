@@ -58,7 +58,10 @@ userSchema.statics.login = async (userData) => {
 		const user = await User.findOne({ email: userData.email });
 
 		// Compare the password with saved hash
-		await compareHashes(userData.password, user.password);
+		const comparePass = await compareHashes(userData.password, user.password);
+		if(!comparePass){
+			return null
+		}
 
 		// return only a simplified JSON (making sure no password/hashes are sent)
         return {
