@@ -62,7 +62,7 @@ const getWishlist = async (req, res, next) => {
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
 		res.status(200);
-		res.send(user.wishlist);
+		res.json(user.wishlist);
 	} catch (error) {
 		next(error);
 	}
@@ -102,13 +102,27 @@ const removeFromWishlist = async (req, res, next) => {
 		const user = await User.findOne({ _id: userId });
 		const eventId = req.params.eventId;
 		const event = await Event.findOne({ _id: eventId });
-		if (user.wishlist.includes(event._id)) {
-			return;
+		if (!user.wishlist.includes(event._id)) {
+			res.status(200);
+            res.json({ success: "removed from wishlist"});
 		}
 		user.wishlist.splice(event._id, 1); // ??
-		await user.save();
-		res.status(200);
-		res.send("removed from wishlist");
+        // also try out this:
+        // user.wishlist.id(event._id).remove();
+        // for testing: 
+        user.save()
+            .then(() => {
+                res.status(200);
+		        res.json({ success: "removed from wishlist" });
+            })
+            .catch(err => {
+                res.status(500);
+                res.json({ errors: [ `during removing from wishlist: " ${err.message} `] });
+            })
+        // for production:
+		// await user.save();
+		// res.status(200);
+		// res.json({ success: "removed from wishlist" });
 	} catch (error) {
 		next(error);
 	}
