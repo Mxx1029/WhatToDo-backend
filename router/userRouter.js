@@ -30,14 +30,26 @@ router.get("/:userId/events/today", eventController.getEventsForToday);
 // user clicks on a event
 router.get("/:userId/events/:eventId", eventController.getEvent);
 // query events using req.body
-router.post("/:userId/events", eventController.getEvents);
+router.post("/:userId/events/search", eventController.getEvents);
 
-// routes for wishlist/favorites actions OR CRUD actions on events (only possible for logged in users) 
+// routes for wishlist/favorites actions OR CRUD actions on events (only possible for logged in users)
 // getting the user's wishlist of events
-router.get("/:userId/events/wishlist", checkLogin, eventController.getWishlist);
+router.get(
+	"/:userId/events/wishlist",
+	// checkLogin,
+	eventController.getWishlist
+);
 // adding or removing an event to/from the user's wishlist
-router.post("/:userId/events/:eventId", checkLogin, eventController.addToWishlist);
-router.delete("/:userId/events/:eventId", checkLogin, eventController.removeFromWishlist);
+router.post(
+	"/:userId/events/:eventId",
+	checkLogin,
+	eventController.addToWishlist
+);
+router.delete(
+	"/:userId/events/:eventId",
+	checkLogin,
+	eventController.removeFromWishlist
+);
 // adding an event
 router.post(
 	"/:userId/events",
