@@ -13,7 +13,7 @@ const router = express.Router();
 // Define destination for image upload (for eventController.addEvent)
 const upload = multer({ dest: "./uploads/" });
 
-// routes for CRUD actions on users
+// ---- routes for CRUD actions on users
 router.get("/", userController.getUsers);
 router.get("/:userId", userController.getUser);
 // register a user
@@ -24,21 +24,33 @@ router.post("/login", validate(loginRules), userController.loginUser); // --> af
 router.put("/:userId", userController.updateUser);
 router.delete("/:userId", userController.deleteUser);
 
-// routes for browsing events with logged in user
+// ---- routes for browsing events with logged in user
 // landing page after successful login
 router.get("/:userId/events/today", eventController.getEventsForToday);
-// user clicks on a event
-router.get("/:userId/events/:eventId", eventController.getEvent);
 // query events using req.body
 router.post("/:userId/events/search", eventController.getEvents);
+// user clicks on an event is further down, because of routing params
 
-// routes for wishlist/favorites actions OR CRUD actions on events (only possible for logged in users)
+// ---- routes for wishlist/favorites actions OR CRUD actions on events (only possible for logged in users)
+// adding an event
+router.post(
+	"/:userId/events",
+	checkLogin,
+	upload.single("uploaded_image"),
+	validate(newEventRules),
+	eventController.addEvent
+);
+
 // getting the user's wishlist of events
 router.get(
 	"/:userId/events/wishlist",
 	// checkLogin,
 	eventController.getWishlist
 );
+
+// user clicks on a event
+router.get("/:userId/events/:eventId", eventController.getEvent);
+
 // adding or removing an event to/from the user's wishlist
 router.post(
 	"/:userId/events/:eventId",
@@ -50,14 +62,7 @@ router.delete(
 	// checkLogin,
 	eventController.removeFromWishlist
 );
-// adding an event
-router.post(
-	"/:userId/events",
-	checkLogin,
-	upload.single("uploaded_image"),
-	validate(newEventRules),
-	eventController.addEvent
-);
+
 router.put("/:userId/events/:eventId", eventController.updateEvent);
 router.delete("/:userId/events/:eventId", eventController.deleteEvent);
 

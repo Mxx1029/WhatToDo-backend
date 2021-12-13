@@ -3,8 +3,8 @@ POST http://localhost:9012/users/
 Content-Type: application/json
 
 {
-    "name": "Mxx8",
-    "email": "mxx8@example.org",
+    "name": "Mxx10",
+    "email": "mxx10@example.org",
     "password": "!Lavamud_Cake123"
 }
 
@@ -37,7 +37,7 @@ Content-Type: application/json
 }
 
 ### Get event page - after each backup start, you need to get a fresh eventId from Compass/Atlas for the url
-GET http://localhost:9012/events/61a7365967131f5aece9bccf
+GET http://localhost:9012/events/61b7783b02564fa294a688e8
 
 ### Add an event
 POST http://localhost:9012/users/61af272e8b7b64ac14434cc2/events
@@ -68,16 +68,16 @@ Date: {{$datetime iso8601}}
 }
 
 ### Add event to wishlist 
-POST http://localhost:9012/users/61af272e8b7b64ac14434cc2/events/61b74ec3aa29d1c082002844
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWFmMjcyZThiN2I2NGFjMTQ0MzRjYzIiLCJpYXQiOjE2MzkwNDgxMTN9.Txw5hDMdRHNaaIJ6e_-k81l-jXn8qaa5GNLCIWMxoz0
+POST http://localhost:9012/users/61af272e8b7b64ac14434cc2/events/61b7787a02564fa294a688fa
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWFmMjcyZThiN2I2NGFjMTQ0MzRjYzIiLCJpYXQiOjE2MzkwNDgxMTN9.Txw5hDMdRHNaaIJ6e_-k81l-jXn8qaa5GNLCIWMxoz0
 
 ### Delete event from wishlist 
-DELETE http://localhost:9012/users/61af272e8b7b64ac14434cc2/events/61b754b2aa29d1c08200285b
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWFmMjcyZThiN2I2NGFjMTQ0MzRjYzIiLCJpYXQiOjE2MzkwNDgxMTN9.Txw5hDMdRHNaaIJ6e_-k81l-jXn8qaa5GNLCIWMxoz0
+DELETE http://localhost:9012/users/61af272e8b7b64ac14434cc2/events/61b7783b02564fa294a688e8
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWFmMjcyZThiN2I2NGFjMTQ0MzRjYzIiLCJpYXQiOjE2MzkwNDgxMTN9.Txw5hDMdRHNaaIJ6e_-k81l-jXn8qaa5GNLCIWMxoz0
 
 ### Get user's wishlist
 GET http://localhost:9012/users/61af272e8b7b64ac14434cc2/events/wishlist
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWFmMjcyZThiN2I2NGFjMTQ0MzRjYzIiLCJpYXQiOjE2MzkwNDgxMTN9.Txw5hDMdRHNaaIJ6e_-k81l-jXn8qaa5GNLCIWMxoz0
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWFmMjcyZThiN2I2NGFjMTQ0MzRjYzIiLCJpYXQiOjE2MzkwNDgxMTN9.Txw5hDMdRHNaaIJ6e_-k81l-jXn8qaa5GNLCIWMxoz0
