@@ -4,7 +4,7 @@ import Event from "../models/event.js";
 
 export default async function seed() {
 	// Firstly delete all fake events
-	await Event.deleteMany({});
+	// await Event.deleteMany({});
 
 	// Helper arrays and functions
 	const categories = [

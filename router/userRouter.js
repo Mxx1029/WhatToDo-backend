@@ -42,12 +42,12 @@ router.get(
 // adding or removing an event to/from the user's wishlist
 router.post(
 	"/:userId/events/:eventId",
-	checkLogin,
+	// checkLogin,
 	eventController.addToWishlist
 );
 router.delete(
 	"/:userId/events/:eventId",
-	checkLogin,
+	// checkLogin,
 	eventController.removeFromWishlist
 );
 // adding an event

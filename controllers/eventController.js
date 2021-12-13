@@ -61,8 +61,12 @@ const getWishlist = async (req, res, next) => {
 	try {
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
+        // user.populate('wishlist');
+        // const wishlist = await user.exec();
+        // console.log(wishlist);
 		res.status(200);
-		res.json(user.wishlist);
+		// res.json(wishlist);
+        res.json(user.wishlist);
 	} catch (error) {
 		next(error);
 	}

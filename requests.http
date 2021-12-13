@@ -1,3 +1,4 @@
+### Register a user
 POST http://localhost:9012/users/
 Content-Type: application/json
 
@@ -7,7 +8,7 @@ Content-Type: application/json
     "password": "!Lavamud_Cake123"
 }
 
-###
+### Login a user
 POST http://localhost:9012/users/login
 Content-Type: application/json
 
@@ -16,11 +17,11 @@ Content-Type: application/json
     "password": "!Lavamud_Cake123"
 }
 
-###
-
+### Landing page - events of today
 GET http://localhost:9012/events/today
 
-###
+
+### Search events
 POST http://localhost:9012/events/search
     # it was a GET request before w/ req.query
     # ?category=Free
@@ -29,15 +30,16 @@ POST http://localhost:9012/events/search
 Content-Type: application/json
 
 {
+    // if you comment out 1 or more search parameters, take care of the comma
     "category": "Free",
     "date": "2021-12-22T12:00:00.000Z",
     "keyword": "Chips"
 }
 
-### after each backup start, you need to get a fresh eventId from Compass/Atlas for the url
+### Get event page - after each backup start, you need to get a fresh eventId from Compass/Atlas for the url
 GET http://localhost:9012/events/61a7365967131f5aece9bccf
 
-###
+### Add an event
 POST http://localhost:9012/users/61af272e8b7b64ac14434cc2/events
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWFmMjcyZThiN2I2NGFjMTQ0MzRjYzIiLCJpYXQiOjE2MzkwNDgxMTN9.Txw5hDMdRHNaaIJ6e_-k81l-jXn8qaa5GNLCIWMxoz0
 Content-Type: application/json
@@ -64,3 +66,18 @@ Date: {{$datetime iso8601}}
     "facebook": "event.facebook.com",
     "image": ""
 }
+
+### Add event to wishlist 
+POST http://localhost:9012/users/61af272e8b7b64ac14434cc2/events/61b74ec3aa29d1c082002844
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWFmMjcyZThiN2I2NGFjMTQ0MzRjYzIiLCJpYXQiOjE2MzkwNDgxMTN9.Txw5hDMdRHNaaIJ6e_-k81l-jXn8qaa5GNLCIWMxoz0
+Content-Type: application/json
+
+### Delete event from wishlist 
+DELETE http://localhost:9012/users/61af272e8b7b64ac14434cc2/events/61b754b2aa29d1c08200285b
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWFmMjcyZThiN2I2NGFjMTQ0MzRjYzIiLCJpYXQiOjE2MzkwNDgxMTN9.Txw5hDMdRHNaaIJ6e_-k81l-jXn8qaa5GNLCIWMxoz0
+Content-Type: application/json
+
+### Get user's wishlist
+GET http://localhost:9012/users/61af272e8b7b64ac14434cc2/events/wishlist
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWFmMjcyZThiN2I2NGFjMTQ0MzRjYzIiLCJpYXQiOjE2MzkwNDgxMTN9.Txw5hDMdRHNaaIJ6e_-k81l-jXn8qaa5GNLCIWMxoz0
+Content-Type: application/json
