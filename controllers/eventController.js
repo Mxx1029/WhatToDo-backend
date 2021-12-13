@@ -62,7 +62,7 @@ const getWishlist = async (req, res, next) => {
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
 		res.status(200);
-		res.json(user.wishlist);
+		res.json(user.wishlist); 
 	} catch (error) {
 		next(error);
 	}
