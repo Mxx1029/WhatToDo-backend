@@ -66,7 +66,7 @@ const getWishlist = async (req, res, next) => {
         // console.log(wishlist);
 		res.status(200);
 		// res.json(wishlist);
-        res.json(user.wishlist);
+        res.json(user.wishlist); // not working at the moment, getting error: 'Cast to ObjectId failed for value "wishlist" (type string) at path "_id" for model "events"'
 	} catch (error) {
 		next(error);
 	}
