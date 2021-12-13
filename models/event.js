@@ -84,7 +84,7 @@ const eventSchema = new Schema({
 	updated_at: { type: Date },
 	deleted: { type: Date },
 
-	users_wishlisting: [{ type: Schema.Types.ObjectId, ref: "regUsers" }],
+	wishlisting_users: [{ type: Schema.Types.ObjectId, ref: "regUsers" }],
 	wishlist_count: { type: Number }, // event owner will only see number, no names
 	users_attending: [{ type: Schema.Types.ObjectId, ref: "regUsers" }],
 	attending_count: { type: Number }, // event owner will only see number, no names
