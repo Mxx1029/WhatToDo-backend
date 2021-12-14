@@ -48,7 +48,7 @@ const getEvents = (req, res, next) => {
 			(filters.end_date = { $gte: moment(today) });
 	} else if (dateFilter == "Tomorrow") {
 		(filters.start_date = { $lte: moment(today) }),
-			(filters.end_date = { $gte: moment(today).add(1, "day") });
+			(filters.end_date = { $gt: moment(today) });
 	} else if (dateFilter == "This weekend") {
         // Get the current weekday (Sunday (0) to Monday (6)) and set date parameters for Friday to Sunday
 		switch (moment(today).day()) {
