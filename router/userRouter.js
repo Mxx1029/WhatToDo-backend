@@ -20,7 +20,7 @@ router.get("/:userId", userController.getUser);
 router.post("/", validate(registerRules), userController.addUser);
 
 // login a user --> req.body will contain email/password
-router.post("/login", validate(loginRules), userController.loginUser); // --> after this redirect to /users/:userId/events/today ?
+router.post("/login", validate(loginRules), userController.loginUser);
 router.put("/:userId", userController.updateUser);
 router.delete("/:userId", userController.deleteUser);
 

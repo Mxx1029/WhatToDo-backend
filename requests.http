@@ -30,10 +30,12 @@ POST http://localhost:9012/events/search
 Content-Type: application/json
 
 {
-    // if you comment out 1 or more search parameters, take care of the comma
-    "category": "Free",
-    "date": "2021-12-22T12:00:00.000Z",
-    "keyword": "Chips"
+    // if you comment out search parameters, get rid of the comma
+    //"category": "Free",
+    "category": "Anything",
+    //"date": "2021-12-22T12:00:00.000Z"
+    "date": "This weekend"
+    //"keyword": "Home"
 }
 
 ### Get event page - after each backup start, you need to get a fresh eventId from Compass/Atlas for the url
