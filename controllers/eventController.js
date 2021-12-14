@@ -26,13 +26,61 @@ const getEventsForToday = (req, res, next) => {
 
 // get events using req.query
 const getEvents = (req, res, next) => {
+	const today = moment();
+
 	const categoryFilter = req.body.category;
 	const dateFilter = req.body.date;
 	const keywordFilter = req.body.keyword;
 
 	const filters = {};
-	if (categoryFilter && categoryFilter !== "anything") {
+	if (categoryFilter && categoryFilter !== "Anything") {
 		filters.category = categoryFilter;
+	}
+	if (dateFilter === "Anytime") {
+		filters.end_date = { $gte: moment(today) };
+	}
+	if (dateFilter === "Today") {
+		(filters.start_date = { $lte: moment(today) }),
+			(filters.end_date = { $gte: moment(today) });
+	}
+	if (dateFilter === "Tomorrow") {
+		(filters.start_date = { $lte: moment(today).add(1, "day") }),
+			(filters.end_date = { $gte: moment(today).add(1, "day") });
+	}
+	if (dateFilter === "This weekend") {
+        // Get the current weekday (Sunday (0) to Monday (6))
+		switch (moment(today).day()) {
+			case 0:
+				(filters.start_date = { $lte: moment(today).subtract(2, "days") }),
+					(filters.end_date = { $gte: moment(today) });
+				break;
+			case 1:
+                (filters.start_date = { $lte: moment(today).add(4, "days") }),
+					(filters.end_date = { $gte: moment(today).add(6, "days") });
+				break;
+			case 2:
+                (filters.start_date = { $lte: moment(today).add(3, "days") }),
+					(filters.end_date = { $gte: moment(today).add(5, "days") });
+				break;
+			case 3:
+                (filters.start_date = { $lte: moment(today).add(2, "days") }),
+					(filters.end_date = { $gte: moment(today).add(4, "days") });
+				break;
+			case 4:
+                (filters.start_date = { $lte: moment(today).add(1, "days") }),
+					(filters.end_date = { $gte: moment(today).add(3, "days") });
+				break;
+			case 5:
+                (filters.start_date = { $lte: moment(today) }),
+					(filters.end_date = { $gte: moment(today).add(2, "days") });
+				break;
+			case 6:
+                (filters.start_date = { $lte: moment(today).substract(-1, "days") }),
+					(filters.end_date = { $gte: moment(today).add(1, "days") });
+				break;
+			default:
+				break;
+		}
 	}
 	if (dateFilter) {
 		(filters.start_date = { $lte: moment(dateFilter) }),
@@ -89,8 +137,7 @@ const addToWishlist = async (req, res, next) => {
 		}
 		res.status(200);
 		res.json({
-			success:
-				`event ${event._id} added to wishlist, user ${user._id} added to event's wishlisting users`,
+			success: `event ${event._id} added to wishlist, user ${user._id} added to event's wishlisting users`,
 		});
 	} catch (error) {
 		next(error);
@@ -113,15 +160,14 @@ const removeFromWishlist = async (req, res, next) => {
 		// Remove event from user's wishlist
 		user.wishlist.splice(event._id, 1);
 		await user.save();
-		
+
 		// Remove user from event's wishlisting users
 		event.wishlisting_users.splice(user._id, 1);
 		await event.save();
-		
+
 		res.status(200);
 		res.json({
-			success:
-				`event ${event._id} removed from wishlist, user ${user._id} removed from event's wishlisting users`,
+			success: `event ${event._id} removed from wishlist, user ${user._id} removed from event's wishlisting users`,
 		});
 	} catch (error) {
 		next(error);
