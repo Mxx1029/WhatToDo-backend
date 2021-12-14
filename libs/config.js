@@ -33,5 +33,5 @@ export default async function config(app) {
 
     // Seed database with some fake events (no users so far)
     await seed();
-    console.log("Seeding events");
+    console.log(">> Seeding events");
 }

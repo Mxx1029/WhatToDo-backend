@@ -80,49 +80,17 @@ const addToWishlist = async (req, res, next) => {
 		// Add event to the user's wishlist
 		if (!user.wishlist.includes(event._id)) {
 			user.wishlist.push(event);
-			// also test:
-			// user.wishlist.create(event); // no save needed ??
-			// for testing:
-			user
-				.save()
-				.then(() => {
-					console.log("Added event to wishlist of user");
-				})
-				.catch((err) => {
-					res.status(500);
-					res.json({
-						errors: [`during saving event to user's wishlist: ${err.message}`],
-					});
-				});
-			// for production:
-			// await user.save();
+			await user.save();
 		}
 		// Add user to list of users having this event on their wishlist
 		if (!event.wishlisting_users.includes(userId)) {
 			event.wishlisting_users.push(user);
-			// also test:
-			// event.wishlisting_users.create(event);
-			// for testing:
-			event
-				.save()
-				.then(() => {
-					console.log("Added user to event's wishlisting users");
-				})
-				.catch((err) => {
-					res.status(500);
-					res.json({
-						errors: [
-							`during saving of user on event's wishlisting users: ${err.message}`,
-						],
-					});
-				});
-			// for production:
-			// await event.save();
+			await event.save();
 		}
 		res.status(200);
 		res.json({
 			success:
-				"event added to wishlist, user added to event's wishlisting users",
+				`event ${event._id} added to wishlist, user ${user._id} added to event's wishlisting users`,
 		});
 	} catch (error) {
 		next(error);
@@ -144,48 +112,16 @@ const removeFromWishlist = async (req, res, next) => {
 		}
 		// Remove event from user's wishlist
 		user.wishlist.splice(event._id, 1);
-		// also try out this:
-		// user.wishlist.id(event._id).remove();
-		// for testing:
-		user
-			.save()
-			.then(() => {
-				console.log("event removed from user's wishlist");
-			})
-			.catch((err) => {
-				res.status(500);
-				res.json({
-					errors: [
-						`during removing event from user's wishlist: " ${err.message} `,
-					],
-				});
-			});
-
+		await user.save();
+		
 		// Remove user from event's wishlisting users
 		event.wishlisting_users.splice(user._id, 1);
-		// also try out this:
-		// event.wishlisting_users.id(user._id).remove();
-		// for testing:
-		event
-			.save()
-			.then(() => {
-				console.log("user removed from event's wishlisting users");
-			})
-			.catch((err) => {
-				res.status(500);
-				res.json({
-					errors: [
-						`during removing user from event's wishlisting users: " ${err.message} `,
-					],
-				});
-			});
-		// for production:
-		// await user.save();
-		// await event.save();
+		await event.save();
+		
 		res.status(200);
 		res.json({
 			success:
-				"event removed from wishlist, user removed from event's wishlisting users",
+				`event ${event._id} removed from wishlist, user ${user._id} removed from event's wishlisting users`,
 		});
 	} catch (error) {
 		next(error);

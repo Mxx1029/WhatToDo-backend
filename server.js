@@ -23,5 +23,5 @@ server.use(errorHandler);
 // Connect to port
 const PORT = process.env.PORT;
 server.listen(PORT, () => {
-    console.log(`Server started listening on http://localhost:${PORT}`)
+    console.log(`>> Server started listening on http://localhost:${PORT}`)
 })

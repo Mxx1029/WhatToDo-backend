@@ -44,7 +44,7 @@ router.post(
 // getting the user's wishlist of events
 router.get(
 	"/:userId/events/wishlist",
-	// checkLogin,
+	checkLogin,
 	eventController.getWishlist
 );
 
@@ -54,12 +54,12 @@ router.get("/:userId/events/:eventId", eventController.getEvent);
 // adding or removing an event to/from the user's wishlist
 router.post(
 	"/:userId/events/:eventId",
-	// checkLogin,
+	checkLogin,
 	eventController.addToWishlist
 );
 router.delete(
 	"/:userId/events/:eventId",
-	// checkLogin,
+	checkLogin,
 	eventController.removeFromWishlist
 );
 
