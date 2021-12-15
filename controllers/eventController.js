@@ -16,9 +16,10 @@ const callback = (error, result, response, next) => {
 const getEventsForToday = (req, res, next) => {
 	// get same format as is in the database out of moment object (type: String)
 	const today = moment();
+    console.log(today);
+
 
 	Event.find(
-		// implement today's events, when we actually have data, but also: events who are longer than one day will not be found like this
 		{ start_date: { $lte: moment(today) }, end_date: { $gte: moment(today) } },
 		(err, docs) => callback(err, docs, res, next)
 	);
@@ -26,18 +27,69 @@ const getEventsForToday = (req, res, next) => {
 
 // get events using req.query
 const getEvents = (req, res, next) => {
+    const today = moment();
+
 	const categoryFilter = req.body.category;
 	const dateFilter = req.body.date;
 	const keywordFilter = req.body.keyword;
 
 	const filters = {};
-	if (categoryFilter) {
+    // Setting category if there is one 
+	if (categoryFilter && categoryFilter !== "Anything") {
 		filters.category = categoryFilter;
 	}
-	if (dateFilter) {
+
+    // Setting start and end date filter if there is one
+	if (dateFilter === "Anytime") {
+	    filters.end_date = { $gte: moment(today) };
+	    // filters.end_date = { $gte: moment() };
+	} else if (dateFilter == "Today") {
+		(filters.start_date = { $lte: moment(today) }),
+			(filters.end_date = { $gte: moment(today) });
+	} else if (dateFilter == "Tomorrow") {
+		(filters.start_date = { $lte: moment(today) }),
+			(filters.end_date = { $gt: moment(today) });
+	} else if (dateFilter == "This weekend") {
+        // Get the current weekday (Sunday (0) to Monday (6)) and set date parameters for Friday to Sunday
+		switch (moment(today).day()) {
+			case 0:
+				(filters.start_date = { $lte: moment(today).subtract(2, "days") }),
+					(filters.end_date = { $gte: moment(today) });
+				break;
+			case 1:
+                (filters.start_date = { $lte: moment(today).add(4, "days") }),
+					(filters.end_date = { $gte: moment(today).add(6, "days") });
+				break;
+			case 2:
+                (filters.start_date = { $lte: moment(today).add(3, "days") }),
+					(filters.end_date = { $gte: moment(today).add(5, "days") });
+				break;
+			case 3:
+                (filters.start_date = { $lte: moment(today).add(2, "days") }),
+					(filters.end_date = { $gte: moment(today).add(4, "days") });
+				break;
+			case 4:
+                (filters.start_date = { $lte: moment(today).add(1, "days") }),
+					(filters.end_date = { $gte: moment(today).add(3, "days") });
+				break;
+			case 5:
+                (filters.start_date = { $lte: moment(today) }),
+					(filters.end_date = { $gte: moment(today).add(2, "days") });
+				break;
+			case 6:
+                (filters.start_date = { $lte: moment(today).subtract(-1, "days") }),
+					(filters.end_date = { $gte: moment(today).add(1, "days") });
+				break;
+			default:
+				break;
+		}
+	} else {
+        // Getting date via datepicker in FE
 		(filters.start_date = { $lte: moment(dateFilter) }),
 			(filters.end_date = { $gte: moment(dateFilter) });
 	}
+
+    // Setting up filter by keyword, if there is one
 	if (keywordFilter) {
 		// ---- 2 versions for keyword search:
 		// partial match: if you look for "Chicken Concrete", THIS will find "Chicken" and "Concrete" and "Chicken Concrete" (searches in all text fields)
@@ -48,6 +100,7 @@ const getEvents = (req, res, next) => {
 		// 	{ summary: { $regex: `^.*${keywordFilter}.*$` } },
 		// 	{ description: { $regex: `^.*${keywordFilter}.*$` } }, ]
 	}
+    // Finding matching events in the database
 	Event.find(filters, (err, docs) => callback(err, docs, res, next));
 };
 
@@ -61,12 +114,11 @@ const getWishlist = async (req, res, next) => {
 	try {
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
-        // user.populate('wishlist');
-        // const wishlist = await user.exec();
-        // console.log(wishlist);
+		// user.populate('wishlist');
+		// const wishlist = await user.exec();
 		res.status(200);
 		// res.json(wishlist);
-        res.json(user.wishlist); // not working at the moment, getting error: 'Cast to ObjectId failed for value "wishlist" (type string) at path "_id" for model "events"'
+		res.json(user.wishlist); // not working at the moment, getting error: 'Cast to ObjectId failed for value "wishlist" (type string) at path "_id" for model "events"'
 	} catch (error) {
 		next(error);
 	}
@@ -78,43 +130,20 @@ const addToWishlist = async (req, res, next) => {
 		const user = await User.findOne({ _id: userId });
 		const eventId = req.params.eventId;
 		const event = await Event.findOne({ _id: eventId });
-        // Add event to the user's wishlist
+		// Add event to the user's wishlist
 		if (!user.wishlist.includes(event._id)) {
 			user.wishlist.push(event);
-            // also test:
-            // user.wishlist.create(event); // no save needed ??
-            // for testing: 
-            user.save()
-                .then(() => {
-                    console.log("Added event to wishlist of user")
-                })
-                .catch(err => {
-                    res.status(500);
-                    res.json({ errors: [ `during saving event to user's wishlist: ${err.message}` ] });
-                })
-            // for production:
-			// await user.save();
-			
+			await user.save();
 		}
-        // Add user to list of users having this event on their wishlist
-        if(!event.wishlisting_users.includes(userId)) {
-            event.wishlisting_users.push(user);
-            // also test:
-            // event.wishlisting_users.create(event);
-            // for testing:
-            event.save()
-                .then(() => {
-                    console.log("Added user to event's wishlisting users");
-                })
-                .catch(err => {
-                    res.status(500);
-                    res.json({ errors: [ `during saving of user on event's wishlisting users: ${err.message}` ] });
-                })
-            // for production:
-			// await event.save();
-        }
-        res.status(200);
-		res.json({ success: "event added to wishlist, user added to event's wishlisting users" });
+		// Add user to list of users having this event on their wishlist
+		if (!event.wishlisting_users.includes(userId)) {
+			event.wishlisting_users.push(user);
+			await event.save();
+		}
+		res.status(200);
+		res.json({
+			success: `event ${event._id} added to wishlist, user ${user._id} added to event's wishlisting users`,
+		});
 	} catch (error) {
 		next(error);
 	}
@@ -126,42 +155,25 @@ const removeFromWishlist = async (req, res, next) => {
 		const user = await User.findOne({ _id: userId });
 		const eventId = req.params.eventId;
 		const event = await Event.findOne({ _id: eventId });
-		if (!user.wishlist.includes(event._id) && !event.wishlisting_users.includes(user._id)) {
+		if (
+			!user.wishlist.includes(event._id) &&
+			!event.wishlisting_users.includes(user._id)
+		) {
 			res.status(200);
-            res.json({ success: "removed from wishlist"});
+			res.json({ success: "removed from wishlist" });
 		}
-        // Remove event from user's wishlist
+		// Remove event from user's wishlist
 		user.wishlist.splice(event._id, 1);
-        // also try out this:
-        // user.wishlist.id(event._id).remove();
-        // for testing: 
-        user.save()
-            .then(() => {
-                console.log("event removed from user's wishlist");
-            })
-            .catch(err => {
-                res.status(500);
-                res.json({ errors: [ `during removing event from user's wishlist: " ${err.message} `] });
-            })
+		await user.save();
 
-        // Remove user from event's wishlisting users  
-        event.wishlisting_users.splice(user._id, 1);
-        // also try out this:
-        // event.wishlisting_users.id(user._id).remove();
-        // for testing: 
-        event.save()
-            .then(() => {
-                console.log("user removed from event's wishlisting users" );
-            })
-            .catch(err => {
-                res.status(500);
-                res.json({ errors: [ `during removing user from event's wishlisting users: " ${err.message} `] });
-            })
-        // for production:
-		// await user.save();
-        // await event.save();
+		// Remove user from event's wishlisting users
+		event.wishlisting_users.splice(user._id, 1);
+		await event.save();
+
 		res.status(200);
-		res.json({ success: "event removed from wishlist, user removed from event's wishlisting users" });
+		res.json({
+			success: `event ${event._id} removed from wishlist, user ${user._id} removed from event's wishlisting users`,
+		});
 	} catch (error) {
 		next(error);
 	}

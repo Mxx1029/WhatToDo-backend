@@ -14,7 +14,7 @@ const checkLogin = (req, res, next) => {
             return;
         }
         // for testing
-        console.log(decoded);
+        // console.log(decoded);
         next();
     })
 };
