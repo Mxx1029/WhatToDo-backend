@@ -16,8 +16,7 @@ const callback = (error, result, response, next) => {
 const getEventsForToday = (req, res, next) => {
 	// get same format as is in the database out of moment object (type: String)
 	const today = moment();
-    console.log(today);
-
+	console.log(today);
 
 	Event.find(
 		{ start_date: { $lte: moment(today) }, end_date: { $gte: moment(today) } },
@@ -27,22 +26,22 @@ const getEventsForToday = (req, res, next) => {
 
 // get events using req.query
 const getEvents = (req, res, next) => {
-    const today = moment();
+	const today = moment();
 
 	const categoryFilter = req.body.category;
 	const dateFilter = req.body.date;
 	const keywordFilter = req.body.keyword;
 
 	const filters = {};
-    // Setting category if there is one 
+	// Setting category if there is one
 	if (categoryFilter && categoryFilter !== "Anything") {
 		filters.category = categoryFilter;
 	}
 
-    // Setting start and end date filter if there is one
+	// Setting start and end date filter if there is one
 	if (dateFilter === "Anytime") {
-	    filters.end_date = { $gte: moment(today) };
-	    // filters.end_date = { $gte: moment() };
+		filters.end_date = { $gte: moment(today) };
+		// filters.end_date = { $gte: moment() };
 	} else if (dateFilter == "Today") {
 		(filters.start_date = { $lte: moment(today) }),
 			(filters.end_date = { $gte: moment(today) });
@@ -50,46 +49,46 @@ const getEvents = (req, res, next) => {
 		(filters.start_date = { $lte: moment(today) }),
 			(filters.end_date = { $gt: moment(today) });
 	} else if (dateFilter == "This weekend") {
-        // Get the current weekday (Sunday (0) to Monday (6)) and set date parameters for Friday to Sunday
+		// Get the current weekday (Sunday (0) to Monday (6)) and set date parameters for Friday to Sunday
 		switch (moment(today).day()) {
 			case 0:
 				(filters.start_date = { $lte: moment(today).subtract(2, "days") }),
 					(filters.end_date = { $gte: moment(today) });
 				break;
 			case 1:
-                (filters.start_date = { $lte: moment(today).add(4, "days") }),
+				(filters.start_date = { $lte: moment(today).add(4, "days") }),
 					(filters.end_date = { $gte: moment(today).add(6, "days") });
 				break;
 			case 2:
-                (filters.start_date = { $lte: moment(today).add(3, "days") }),
+				(filters.start_date = { $lte: moment(today).add(3, "days") }),
 					(filters.end_date = { $gte: moment(today).add(5, "days") });
 				break;
 			case 3:
-                (filters.start_date = { $lte: moment(today).add(2, "days") }),
+				(filters.start_date = { $lte: moment(today).add(2, "days") }),
 					(filters.end_date = { $gte: moment(today).add(4, "days") });
 				break;
 			case 4:
-                (filters.start_date = { $lte: moment(today).add(1, "days") }),
+				(filters.start_date = { $lte: moment(today).add(1, "days") }),
 					(filters.end_date = { $gte: moment(today).add(3, "days") });
 				break;
 			case 5:
-                (filters.start_date = { $lte: moment(today) }),
+				(filters.start_date = { $lte: moment(today) }),
 					(filters.end_date = { $gte: moment(today).add(2, "days") });
 				break;
 			case 6:
-                (filters.start_date = { $lte: moment(today).subtract(-1, "days") }),
+				(filters.start_date = { $lte: moment(today).subtract(-1, "days") }),
 					(filters.end_date = { $gte: moment(today).add(1, "days") });
 				break;
 			default:
 				break;
 		}
 	} else {
-        // Getting date via datepicker in FE
+		// Getting date via datepicker in FE
 		(filters.start_date = { $lte: moment(dateFilter) }),
 			(filters.end_date = { $gte: moment(dateFilter) });
 	}
 
-    // Setting up filter by keyword, if there is one
+	// Setting up filter by keyword, if there is one
 	if (keywordFilter) {
 		// ---- 2 versions for keyword search:
 		// partial match: if you look for "Chicken Concrete", THIS will find "Chicken" and "Concrete" and "Chicken Concrete" (searches in all text fields)
@@ -100,8 +99,17 @@ const getEvents = (req, res, next) => {
 		// 	{ summary: { $regex: `^.*${keywordFilter}.*$` } },
 		// 	{ description: { $regex: `^.*${keywordFilter}.*$` } }, ]
 	}
-    // Finding matching events in the database
+	// Finding matching events in the database
 	Event.find(filters, (err, docs) => callback(err, docs, res, next));
+	// to find out more about errors during development
+	// Event.find(filters, (err, docs) => {
+	//     if (err) {
+	//         res.status(500);
+	//         res.json(err)
+	//     }
+	//     res.status(200);
+	//     res.json(docs)
+	// });
 };
 
 // user clicks on a event
