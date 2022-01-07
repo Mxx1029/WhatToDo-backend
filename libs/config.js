@@ -5,11 +5,12 @@ import moment from "moment";
 import seed from "./seed.js";
 
 // Load environment variables
-const { error } = dotenv.config();
-if (error) {
-    console.log("Error while loading configuration from .env");
-    process.exit(1);
-}
+// const { error } = dotenv.config(); // creates errors when deploying w/ heroku unfortunately
+// if (error) {
+//     console.log("Error while loading configuration from .env");
+//     process.exit(1);
+// }
+dotenv.config();
 
 if (!process.env.PORT) {
     console.log("Missing PORT variable, check .env");
